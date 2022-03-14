@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("this is a reference to the MainCamera object, not the parent of it.")]
     public Transform playerCam;
     public CinemachineVirtualCamera mainCamera;
+    public CinemachineFreeLook emoteCamera;
     [Tooltip("reference to orientation object, needed for moving forward and not up or something.")]
     public Transform orientation;
     [Tooltip("LayerMask for ground layer, important because otherwise the collision detection wont know what ground is")]
@@ -99,6 +100,9 @@ public class PlayerMovement : MonoBehaviour
         _controls.Player.Crouch.started += _ => StartCrouch();
         _controls.Player.Crouch.performed += _ => isCrouching = true;
         _controls.Player.Crouch.canceled += _ => StopCrouch();
+        
+        // Emote
+        _controls.Player.Emote.performed += _ => Emote();
     }
 
     void Start()
@@ -150,6 +154,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void StartCrouch()
     {
+        if(isDancing) CancelEmote();
+        
         if (_rigidbody.velocity.magnitude > 0.2f)
         {
             mainCamera.m_Lens.FieldOfView = zoomOutFOV;
@@ -223,6 +229,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        if(isDancing) CancelEmote();
+        
         if ((isGrounded || isWallRunning || isSurfing) && readyToJump)
         {
             _playerAnimator.SetTrigger("Jump");
@@ -498,6 +506,75 @@ public class PlayerMovement : MonoBehaviour
             _rigidbody.AddForce(-wallNormalVector * Time.deltaTime * moveSpeed);
             _rigidbody.AddForce(Vector3.up * Time.deltaTime * _rigidbody.mass * 40f * wallRunGravity);
         }
+    }
+
+    private void Emote()
+    {
+        if (!isDancing)
+        {
+            isDancing = true;
+            emoteCamera.Priority = 2;
+
+            if (PlayerPrefs.HasKey("Emote"))
+            {
+                switch (PlayerPrefs.GetString("Emote"))
+                {
+                    case "Pushup":
+                        _playerAnimator.SetTrigger("Pushup");
+                        break;
+                    case "Loser":
+                        _playerAnimator.SetTrigger("Loser");
+                        break;
+                    case "Threatening":
+                        _playerAnimator.SetTrigger("Threatening");
+                        break;
+                    case "ChickenDance":
+                        _playerAnimator.SetTrigger("ChickenDance");
+                        break;
+                    case "DancingMaraschinoStep":
+                        _playerAnimator.SetTrigger("DancingMaraschinoStep");
+                        break;
+                    case "DancingTwerk":
+                        _playerAnimator.SetTrigger("DancingTwerk");
+                        break;
+                    case "GangnamStyle":
+                        _playerAnimator.SetTrigger("GangnamStyle");
+                        break;
+                    case "MacarenaDance":
+                        _playerAnimator.SetTrigger("MacarenaDance");
+                        break;
+                    case "RobotHipHopDance":
+                        _playerAnimator.SetTrigger("RobotHipHopDance");
+                        break;
+                    case "Shuffling":
+                        _playerAnimator.SetTrigger("Shuffling");
+                        break;
+                    case "SillyDancing":
+                        _playerAnimator.SetTrigger("SillyDancing");
+                        break;
+                    case "TwistDance":
+                        _playerAnimator.SetTrigger("TwistDance");
+                        break;
+                }
+            }
+            else
+            {
+                PlayerPrefs.SetString("Emote", "Loser");
+                _playerAnimator.SetTrigger("Loser");
+            }
+        }
+        else
+        {
+            CancelEmote();
+        }
+    }
+
+    private void CancelEmote()
+    {
+        isDancing = false;
+        emoteCamera.Priority = 0;
+        _playerAnimator.SetTrigger("CancelEmote");
+        _playerAnimator.ResetTrigger("CancelEmote");
     }
 
     private void Animations()

@@ -619,6 +619,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 151655517302752480, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.003145168
+      objectReference: {fileID: 0}
+    - target: {fileID: 151655517302752480, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00003882328
+      objectReference: {fileID: 0}
+    - target: {fileID: 151655517302752480, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.012342786
+      objectReference: {fileID: 0}
+    - target: {fileID: 151655517482426689, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_Transitions.m_OnCameraLive.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 151655517482426689, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_Transitions.m_OnCameraLive.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 151655517482426689, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_Transitions.m_OnCameraLive.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 151655517733524012, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0031351903
+      objectReference: {fileID: 0}
+    - target: {fileID: 151655517733524012, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00025352114
+      objectReference: {fileID: 0}
     - target: {fileID: 151655517916631946, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -666,6 +698,18 @@ PrefabInstance:
     - target: {fileID: 151655517916632053, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
       propertyPath: m_Name
       value: PlayerHolder
+      objectReference: {fileID: 0}
+    - target: {fileID: 151655518405650294, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0031393107
+      objectReference: {fileID: 0}
+    - target: {fileID: 151655518405650294, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00019544642
+      objectReference: {fileID: 0}
+    - target: {fileID: 151655518405650294, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.06213714
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae5508e647ab5bc4cbbc014ed5cca3b2, type: 3}
