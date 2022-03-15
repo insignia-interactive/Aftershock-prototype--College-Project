@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Cinemachine;
 
@@ -14,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("LayerMask for ground layer, important because otherwise the collision detection wont know what ground is")]
     public LayerMask whatIsGround;
     private Rigidbody _rigidbody;
-    private Controls _controls;
     private Animator _playerAnimator;
 
     [Header("Rotation and look")]
@@ -44,8 +44,9 @@ public class PlayerMovement : MonoBehaviour
     private float jumpCooldown = 0.25f;
     [Tooltip("this determines the jump force but is also applied when jumping off of walls, if you decrease it, you may end up being able to walljump and then get back onto the wall leading to infinite height.")]
     public float jumpForce = 550f; 
-    float x, y;
-    bool jumping;
+    public float x, y;
+    public float mouseX, mouseY;
+    public bool jumping;
     private Vector3 normalVector = Vector3.up;
 
     [Header("Wallrunning")]
@@ -89,20 +90,6 @@ public class PlayerMovement : MonoBehaviour
 
         _rigidbody = GetComponent<Rigidbody>();
         _playerAnimator = GetComponent<Animator>();
-        _controls = new Controls();
-
-        // Jumping
-        _controls.Player.Jump.started += _ => jumping = true;
-        _controls.Player.Jump.performed += _ => jumping = true;
-        _controls.Player.Jump.canceled += _ => jumping = false;
-        
-        // Crouching
-        _controls.Player.Crouch.started += _ => StartCrouch();
-        _controls.Player.Crouch.performed += _ => isCrouching = true;
-        _controls.Player.Crouch.canceled += _ => StopCrouch();
-        
-        // Emote
-        _controls.Player.Emote.performed += _ => Emote();
     }
 
     void Start()
@@ -125,7 +112,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if(isDancing) return;
         
-        MyInput();
         Look();
         
         Animations();
@@ -145,14 +131,8 @@ public class PlayerMovement : MonoBehaviour
         actualWallRotation = Mathf.SmoothDamp(actualWallRotation, wallRunRotation, ref wallRotationVel, num * Time.deltaTime);
         playerCam.localRotation = Quaternion.Euler(playerCam.rotation.eulerAngles.x, playerCam.rotation.eulerAngles.y, actualWallRotation);
     }
-    
-    private void MyInput()
-    {
-        x = _controls.Player.Movement.ReadValue<Vector2>().x;
-        y = _controls.Player.Movement.ReadValue<Vector2>().y;
-    }
 
-    private void StartCrouch()
+    public void StartCrouch()
     {
         if(isDancing) CancelEmote();
         
@@ -171,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void StopCrouch()
+    public void StopCrouch()
     {
         mainCamera.m_Lens.FieldOfView = defaultFOV;
 
@@ -267,8 +247,8 @@ public class PlayerMovement : MonoBehaviour
     private float desiredX;
     private void Look()
     {
-        float mouseX = _controls.Player.Mouse.ReadValue<Vector2>().x * sensitivity * Time.fixedDeltaTime * sensMultiplier;
-        float mouseY = _controls.Player.Mouse.ReadValue<Vector2>().y * sensitivity * Time.fixedDeltaTime * sensMultiplier;
+        mouseX = mouseX * sensitivity * Time.fixedDeltaTime * sensMultiplier;
+        mouseY = mouseY * sensitivity * Time.fixedDeltaTime * sensMultiplier;
 
         //Find current look rotation
         Vector3 rot = playerCam.transform.localRotation.eulerAngles;
@@ -508,7 +488,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Emote()
+    public void Emote()
     {
         if (!isDancing)
         {
@@ -574,8 +554,8 @@ public class PlayerMovement : MonoBehaviour
         isDancing = false;
         emoteCamera.Priority = 0;
         _playerAnimator.SetTrigger("CancelEmote");
-        _playerAnimator.ResetTrigger("CancelEmote");
     }
+    
 
     private void Animations()
     {
@@ -585,15 +565,5 @@ public class PlayerMovement : MonoBehaviour
         _playerAnimator.SetBool("isCrouching", isCrouching);
         
         _playerAnimator.SetBool("isGrounded", isGrounded);
-    }
-    
-    private void OnEnable()
-    {
-        _controls.Player.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _controls.Player.Disable();
     }
 }
