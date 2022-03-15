@@ -494,6 +494,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isDancing = true;
             emoteCamera.Priority = 2;
+            _playerAnimator.ResetTrigger("CancelEmote");
 
             if (PlayerPrefs.HasKey("Emote"))
             {
