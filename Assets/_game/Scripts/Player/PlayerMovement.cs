@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using Cinemachine;
 
@@ -103,29 +102,35 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // If player is dancing the return (Stops movement while player is dancing)
         if(isDancing) return;
         
+        // Calls the movement function
         Movement();
     }
 
     private void Update()
     {
+        // If player is dancing the return (Stops movement while player is dancing)
         if(isDancing) return;
         
+        // Calls the Look function
         Look();
         
+        // Calls the Animations function
         Animations();
     }
 
     private void LateUpdate()
     {
-        //call the wallrunning Function
+        // Call the wallrunning Functions
         WallRunning();
         WallRunRotate();
     }
 
     private void WallRunRotate()
     {
+        // Angles the camera depending on the wall run
         FindWallRunRotation();
         float num = 33f;
         actualWallRotation = Mathf.SmoothDamp(actualWallRotation, wallRunRotation, ref wallRotationVel, num * Time.deltaTime);
@@ -134,8 +139,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void StartCrouch()
     {
+        // If function is called and player is dancing call the CancelEmote function
         if(isDancing) CancelEmote();
         
+        // Checks if rigidbody magnitude is bigger than 0.2 and adds FOV zoom and if grounded also adds slide force to the player
         if (_rigidbody.velocity.magnitude > 0.2f)
         {
             mainCamera.m_Lens.FieldOfView = zoomOutFOV;
@@ -147,12 +154,15 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            // If rigidbody has no magnitude dont zoom FOV
             mainCamera.m_Lens.FieldOfView = defaultFOV;
         }
     }
 
     public void StopCrouch()
     {
+        // Resets camera FOV
+        
         mainCamera.m_Lens.FieldOfView = defaultFOV;
 
         isCrouching = false;
@@ -209,12 +219,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        // If function is called and player is dancing call the CancelEmote function
         if(isDancing) CancelEmote();
         
+        // If function is called and isGrounded or isWallRunning or isSurfing and is ready to jump the make player jump
         if ((isGrounded || isWallRunning || isSurfing) && readyToJump)
         {
+            // Sets jump animation trigger
             _playerAnimator.SetTrigger("Jump");
             
+            // Adds force to the player depending on speed or wallrunning
             Vector3 velocity = _rigidbody.velocity;
             readyToJump = false;
             _rigidbody.AddForce(Vector2.up * jumpForce * 1.5f);
@@ -231,6 +245,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 _rigidbody.AddForce(wallNormalVector * jumpForce * 3f);
             }
+            // Invokes the reset jump function with a cooldown
             Invoke("ResetJump", jumpCooldown);
             if (isWallRunning)
             {
@@ -266,6 +281,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CounterMovement(float x, float y, Vector2 mag)
     {
+        // If player isnt grounded or is jumping then return
         if (!isGrounded || jumping) return;
 
         //Slow down sliding
@@ -296,54 +312,69 @@ public class PlayerMovement : MonoBehaviour
     
     public Vector2 FindVelRelativeToLook()
     {
+        // Gets the players look angle and move angle
         float lookAngle = orientation.transform.eulerAngles.y;
         float moveAngle = Mathf.Atan2(_rigidbody.velocity.x, _rigidbody.velocity.z) * Mathf.Rad2Deg;
 
+        // Calculate the smallest distance between look angle and move angle
         float u = Mathf.DeltaAngle(lookAngle, moveAngle);
         float v = 90 - u;
+        
+        // Gets players magnitude
+        float magnitude = _rigidbody.velocity.magnitude;
+        // Calculates yMag multiplying magnitude by the smallest distance between look angle and move angle multiplied by the degrees-to-radians conversion
+        float yMag = magnitude * Mathf.Cos(u * Mathf.Deg2Rad);
+        // Calculates xMag multiplying magnitude by 90 - the smallest distance between look angle and move angle multiplied by the degrees-to-radians conversion
+        float xMag = magnitude * Mathf.Cos(v * Mathf.Deg2Rad);
 
-        float magnitue = _rigidbody.velocity.magnitude;
-        float yMag = magnitue * Mathf.Cos(u * Mathf.Deg2Rad);
-        float xMag = magnitue * Mathf.Cos(v * Mathf.Deg2Rad);
-
+        // returns the xMag and yMag as a vector2
         return new Vector2(xMag, yMag);
     }
-    //a lot of math (dont touch)
+
     private void FindWallRunRotation()
     {
-
+        // If player isnt wall running set wallRunRotation to 0
         if (!isWallRunning)
         {
             wallRunRotation = 0f;
             return;
         }
-        _ = new Vector3(0f, playerCam.transform.rotation.y, 0f).normalized;
-        new Vector3(0f, 0f, 1f);
+        
         float num = 0f;
+        // Gets playercam current rotation on the y axis
         float current = playerCam.transform.rotation.eulerAngles.y;
+        
+        // if wallNormalVector.x -1 is smaller than 0.1f then num is 90
         if (Math.Abs(wallNormalVector.x - 1f) < 0.1f)
         {
             num = 90f;
         }
+        // if wallNormalVector.x -1 is smaller than 0.1f then num is 270
         else if (Math.Abs(wallNormalVector.x - -1f) < 0.1f)
         {
             num = 270f;
         }
+        // if wallNormalVector.x -1 is smaller than 0.1f then num is 0
         else if (Math.Abs(wallNormalVector.z - 1f) < 0.1f)
         {
             num = 0f;
         }
+        // if wallNormalVector.x -1 is smaller than 0.1f then num is 180
         else if (Math.Abs(wallNormalVector.z - -1f) < 0.1f)
         {
             num = 180f;
         }
         num = Vector3.SignedAngle(new Vector3(0f, 0f, 1f), wallNormalVector, Vector3.up);
+        // Gets the shortest distance between current and num and saves it as num2
         float num2 = Mathf.DeltaAngle(current, num);
+        // The wall run rotation is calculated by dividing num2 by 90 and subtracting that by 0 then multiplying the answer by wallRunRotateAmount
         wallRunRotation = (0f - num2 / 90f) * wallRunRotateAmount;
+        // if not useWallRunning then return
         if (!useWallrunning)
         {
             return;
         }
+        // Cancel wall run
         if ((Mathf.Abs(wallRunRotation) < 4f && y > 0f && Math.Abs(x) < 0.1f) || (Mathf.Abs(wallRunRotation) > 22f && y < 0f && Math.Abs(x) < 0.1f))
         {
             if (!cancelling)
@@ -360,14 +391,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Detects if player is walking on the floor
     private bool IsFloor(Vector3 v)
     {
         return Vector3.Angle(Vector3.up, v) < maxSlopeAngle;
     }
 
+    // Detects if player is surfing
     private bool IsSurf(Vector3 v)
     {
         float num = Vector3.Angle(Vector3.up, v);
+        // if angle is smaller than 89 degrees then return bool depending on if num is greater than maxSlopeAngle
         if (num < 89f)
         {
             return num > maxSlopeAngle;
@@ -375,28 +409,36 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
+    // Detects if player is walking on the wall
     private bool IsWall(Vector3 v)
     {
         return Math.Abs(90f - Vector3.Angle(Vector3.up, v)) < 0.05f;
     }
 
+    // Detects if player touches the roof
     private bool IsRoof(Vector3 v)
     {
         return v.y == -1f;
     }
     
+    // ground check
     private void OnCollisionStay(Collision other)
     {
+        // Gets the layer from the collision object 
         int layer = other.gameObject.layer;
         if ((int)whatIsGround != ((int)whatIsGround | (1 << layer)))
         {
             return;
         }
+        // Loops through all collision objects
         for (int i = 0; i < other.contactCount; i++)
         {
+            // Gets the contacts normal
             Vector3 normal = other.contacts[i].normal;
+            // Calls the IsFloor function which returns a bool
             if (IsFloor(normal))
             {
+                // Player is grounded
                 if (isWallRunning)
                 {
                     isWallRunning = false;
@@ -406,19 +448,24 @@ public class PlayerMovement : MonoBehaviour
                 cancellingGrounded = false;
                 CancelInvoke("StopGrounded");
             }
-            if (IsWall(normal) && (layer == (int)whatIsGround || (int)whatIsGround == -1 || layer == LayerMask.NameToLayer("Ground") || layer == LayerMask.NameToLayer("ground"))) //seriously what is this
+            // Detects if player is on the wall
+            if (IsWall(normal) && (layer == (int)whatIsGround || (int)whatIsGround == -1 || layer == LayerMask.NameToLayer("Ground") || layer == LayerMask.NameToLayer("ground")))
             {
+                // Player is wall running
                 StartWallRun(normal);
                 onWall = true;
                 cancellingWall = false;
                 CancelInvoke("StopWall");
             }
+            // Calls the IsSurf function which returns a bool
             if (IsSurf(normal))
             {
+                // Player is surfing
                 isSurfing = true;
                 cancellingSurf = false;
                 CancelInvoke("StopSurf");
             }
+            // Calls IsRoof function
             IsRoof(normal);
         }
         float num = 3f;
@@ -439,17 +486,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Called when player is no longer grounded
     private void StopGrounded()
     {
         isGrounded = false;
     }
 
+    // Called when player is no longer wall running
     private void StopWall()
     {
         onWall = false;
         isWallRunning = false;
     }
 
+    // Called when player is no longer surfing
     private void StopSurf()
     {
         isSurfing = false;
@@ -458,13 +508,13 @@ public class PlayerMovement : MonoBehaviour
     //wallrunning functions
     private void CancelWallrun()
     {
-        //for when we want to stop wallrunning
+        // For when we want to stop wallrunning
         _rigidbody.AddForce(wallNormalVector * escapeForce);
     }
 
     private void StartWallRun(Vector3 normal)
     {
-        //cancels all y momentum and then applies an upwards force.
+        // cancels all y momentum and then applies an upwards force
         if (!isGrounded && useWallrunning)
         {
             wallNormalVector = normal;
@@ -479,8 +529,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallRunning()
     {
-        //checks if the wallrunning bool is set to true and if it is then applies
-        //a force to counter gravity enough to make it feel like wallrunning
+        // Checks if the wallrunning bool is set to true and if it is then applies
+        // A force to counter gravity enough to make it feel like wallrunning
         if (isWallRunning)
         {
             _rigidbody.AddForce(-wallNormalVector * Time.deltaTime * moveSpeed);
@@ -490,12 +540,15 @@ public class PlayerMovement : MonoBehaviour
 
     public void Emote()
     {
+        // If player isnt dancing then start dancing
         if (!isDancing)
         {
             isDancing = true;
+            // Swaps camera to the 3rd person camera
             emoteCamera.Priority = 2;
             _playerAnimator.ResetTrigger("CancelEmote");
 
+            // Checks if player has saved animation
             if (PlayerPrefs.HasKey("Emote"))
             {
                 switch (PlayerPrefs.GetString("Emote"))
@@ -550,14 +603,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Called when animation is cancelled
     private void CancelEmote()
     {
         isDancing = false;
+        // Swaps camera back to the FPS camera
         emoteCamera.Priority = 0;
         _playerAnimator.SetTrigger("CancelEmote");
     }
     
 
+    // Plays animations
     private void Animations()
     {
         _playerAnimator.SetFloat("InputX", x);

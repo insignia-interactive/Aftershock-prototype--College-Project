@@ -87,7 +87,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         if (string.IsNullOrEmpty(roomName)) return;
         
-        PhotonNetwork.CreateRoom(roomName, new RoomOptions{ IsVisible = privateRoom, MaxPlayers = 5 });
+        PhotonNetwork.CreateRoom(roomName, new RoomOptions{ IsVisible = privateRoom, MaxPlayers = 6 });
         MenuManager.Instance.OpenMenu("loading");
     }
 
@@ -96,8 +96,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         // Opens the room menu
         MenuManager.Instance.OpenMenu("room");
-        roomNameText.text = PhotonNetwork.CurrentRoom.Name;
-        
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name + " - Players: " + PhotonNetwork.CurrentRoom.PlayerCount + "/6";
+
         // Creates a array of players in current room
         Player[] players = PhotonNetwork.PlayerList;
 
@@ -112,6 +112,15 @@ public class Launcher : MonoBehaviourPunCallbacks
         
         // Enables start button game for the host of the room only
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
+        {
+            startGameButton.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            startGameButton.GetComponent<Button>().interactable = false;
+        }
 
         roomName = "";
         roomNameInputField.text = "";
@@ -209,6 +218,17 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         // Instantiates playerListItemPrefab as a child of playerListContent and runs SetUp function
         Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
+        
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name + " - Players: " + PhotonNetwork.CurrentRoom.PlayerCount + "/6";
+        
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
+        {
+            startGameButton.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            startGameButton.GetComponent<Button>().interactable = false;
+        }
     }
 
     public void Quit()

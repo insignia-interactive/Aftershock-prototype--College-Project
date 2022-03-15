@@ -22,6 +22,7 @@ public class InputManager : MonoBehaviour
 
         _playerMovement = GetComponentInChildren<PlayerMovement>();
 
+        // If PhotonView is owned by player allow them to use input
         if (PV.IsMine)
         {
             _controls = new Controls();
@@ -43,6 +44,7 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        // If PhotonView is not owned by player delete the cameras and rigidbody (Rigidbody isnt needed as postions, rotation and animations are synced across the server || Camera isnt needed as it can cause the wrong camera to be displayed)
         if (!PV.IsMine)
         {
             FPSCam.SetActive(false);
@@ -58,6 +60,7 @@ public class InputManager : MonoBehaviour
 
     public void MyInput()
     {
+        // If PhotonView is owned by player allow them to use input
         if (PV.IsMine)
         {
             _playerMovement.x = _controls.Player.Movement.ReadValue<Vector2>().x;
@@ -73,6 +76,7 @@ public class InputManager : MonoBehaviour
         _playerManager.Respawn();
     }
 
+    // Sets players rotation according to the spawnpoint rotation
     public void SetRotation(Transform spawnpoint)
     {
         cameraHolder.rotation = spawnpoint.rotation;

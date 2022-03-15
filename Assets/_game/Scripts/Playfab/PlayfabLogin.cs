@@ -29,7 +29,7 @@ public class PlayfabLogin : MonoBehaviour
         // Checks if user already has an email & password stored on their system
         if (PlayerPrefs.HasKey("EMAIL") && PlayerPrefs.HasKey("PASSWORD"))
         {
-            // If email and password stored create a Playfab login request
+            // If email and password stored create a Playfab LoginWithEmailAddressRequest
             var request = new LoginWithEmailAddressRequest
             {
                 Email = PlayerPrefs.GetString("EMAIL"),
@@ -73,7 +73,7 @@ public class PlayfabLogin : MonoBehaviour
             return;
         }
         
-        // Creates a register request (Creates account on playfab)
+        // Creates a Playfab RegisterPlayFabUserRequest (Creates account on playfab)
         var request = new RegisterPlayFabUserRequest
         {
             Email = email,
@@ -86,6 +86,7 @@ public class PlayfabLogin : MonoBehaviour
     // Updates the display name on playfab
     private void UpdateDisplayName(string displayName)
     {
+        // Create a UpdatedUserTitleDisplayName Request
         var request = new UpdateUserTitleDisplayNameRequest { DisplayName = displayName };
         PlayFabClientAPI.UpdateUserTitleDisplayName(request, OnDisplayNameSuccess, OnError);
     }

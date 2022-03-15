@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 240c7493c18308a4eb3d1c6ae38d7e7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPV: {fileID: 5723580315946059205}
+  PV: {fileID: 5723580315946059205}
   text: {fileID: 889290877}
 --- !u!1 &889290875
 GameObject:

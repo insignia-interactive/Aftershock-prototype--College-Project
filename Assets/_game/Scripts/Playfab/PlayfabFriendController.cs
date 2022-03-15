@@ -37,6 +37,7 @@ public class PlayfabFriendController : MonoBehaviour
     private void HandleAddPlayfabFriend(string name)
     {
         Debug.Log($"Playfab add friend request for {name}");
+        // Creates AddFriendRequest
         var request = new AddFriendRequest { FriendTitleDisplayName = name };
         PlayFabClientAPI.AddFriend(request, OnFriendAddedSuccess, OnError);
     }
@@ -44,8 +45,10 @@ public class PlayfabFriendController : MonoBehaviour
     // Handles Remove Friend Requests
     private void HandleRemoveFriend(string name)
     {
+        // get Friends ID
         string id = friends.FirstOrDefault(f => f.TitleDisplayName == name).FriendPlayFabId;
         Debug.Log($"Playfab remove friend {name} with id {id}");
+        // Creates RemoveFriendRequest
         var request = new RemoveFriendRequest { FriendPlayFabId = id };
         PlayFabClientAPI.RemoveFriend(request, OnFriendRemoveSuccess, OnError);
     }
@@ -60,6 +63,7 @@ public class PlayfabFriendController : MonoBehaviour
     private void GetPlayfabFriends()
     {
         Debug.Log("Playfab get friend list request");
+        // Creates a GetFriendsListRequest
         var request = new GetFriendsListRequest { IncludeSteamFriends = false, IncludeFacebookFriends = false, XboxToken = null };
         PlayFabClientAPI.GetFriendsList(request, OnFriendsListSuccess, OnError);
     }
@@ -78,7 +82,8 @@ public class PlayfabFriendController : MonoBehaviour
         
         friends = result.Friends;
         
-        OnFriendListUpdated.Invoke(result.Friends);
+        // Invokes the OnFriendListUpdated delegate event with the friends variable
+        OnFriendListUpdated.Invoke(friends);
     }
     
     // Called when friend removed successfully 
