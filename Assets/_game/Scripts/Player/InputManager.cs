@@ -21,6 +21,7 @@ public class InputManager : MonoBehaviour
         _playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
 
         _playerMovement = GetComponentInChildren<PlayerMovement>();
+        _playerMovement.PV = PV;
 
         // If PhotonView is owned by player allow them to use input
         if (PV.IsMine)

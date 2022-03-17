@@ -1,8 +1,11 @@
 using System;
 using UnityEngine;
 using Cinemachine;
+using Photon.Pun;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviourPunCallbacks
 {
     [Header("Assignables")]
     [Tooltip("this is a reference to the MainCamera object, not the parent of it.")]
@@ -15,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     private Rigidbody _rigidbody;
     private Animator _playerAnimator;
+    public PhotonView PV;
 
     [Header("Rotation and look")]
     private float xRotation;
@@ -78,8 +82,11 @@ public class PlayerMovement : MonoBehaviour
     private bool onWall;
     private bool cancelling;
     [SerializeField] private bool isDancing;
+    [SerializeField] private bool isJumping;
 
     float timer = 0;
+
+    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
 
     public static PlayerMovement Instance { get; private set; }
 
@@ -89,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
 
         _rigidbody = GetComponent<Rigidbody>();
         _playerAnimator = GetComponent<Animator>();
+        
     }
 
     void Start()
@@ -225,9 +233,6 @@ public class PlayerMovement : MonoBehaviour
         // If function is called and isGrounded or isWallRunning or isSurfing and is ready to jump the make player jump
         if ((isGrounded || isWallRunning || isSurfing) && readyToJump)
         {
-            // Sets jump animation trigger
-            _playerAnimator.SetTrigger("Jump");
-            
             // Adds force to the player depending on speed or wallrunning
             Vector3 velocity = _rigidbody.velocity;
             readyToJump = false;
@@ -444,6 +449,7 @@ public class PlayerMovement : MonoBehaviour
                     isWallRunning = false;
                 }
                 isGrounded = true;
+                isJumping = false;
                 normalVector = normal;
                 cancellingGrounded = false;
                 CancelInvoke("StopGrounded");
@@ -490,6 +496,7 @@ public class PlayerMovement : MonoBehaviour
     private void StopGrounded()
     {
         isGrounded = false;
+        isJumping = true;
     }
 
     // Called when player is no longer wall running
@@ -540,7 +547,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void Emote()
     {
-        // If player isnt dancing then start dancing
         if (!isDancing)
         {
             isDancing = true;
@@ -548,58 +554,57 @@ public class PlayerMovement : MonoBehaviour
             emoteCamera.Priority = 2;
             _playerAnimator.ResetTrigger("CancelEmote");
 
-            // Checks if player has saved animation
             if (PlayerPrefs.HasKey("Emote"))
             {
-                switch (PlayerPrefs.GetString("Emote"))
+                string emote = PlayerPrefs.GetString("Emote");
+                switch (emote)
                 {
                     case "Pushup":
-                        _playerAnimator.SetTrigger("Pushup");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "Loser":
-                        _playerAnimator.SetTrigger("Loser");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "Threatening":
-                        _playerAnimator.SetTrigger("Threatening");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "ChickenDance":
-                        _playerAnimator.SetTrigger("ChickenDance");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "DancingMaraschinoStep":
-                        _playerAnimator.SetTrigger("DancingMaraschinoStep");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "DancingTwerk":
-                        _playerAnimator.SetTrigger("DancingTwerk");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "GangnamStyle":
-                        _playerAnimator.SetTrigger("GangnamStyle");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "MacarenaDance":
-                        _playerAnimator.SetTrigger("MacarenaDance");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "RobotHipHopDance":
-                        _playerAnimator.SetTrigger("RobotHipHopDance");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "Shuffling":
-                        _playerAnimator.SetTrigger("Shuffling");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "SillyDancing":
-                        _playerAnimator.SetTrigger("SillyDancing");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "TwistDance":
-                        _playerAnimator.SetTrigger("TwistDance");
+                        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                 }
             }
             else
             {
                 PlayerPrefs.SetString("Emote", "Loser");
-                _playerAnimator.SetTrigger("Loser");
+                PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, "Loser" }, raiseEventOptions, SendOptions.SendReliable);
             }
-        }
-        else
+        } else
         {
-            CancelEmote();
+            PhotonNetwork.RaiseEvent(CancelEmoteAnimate, new object[] { PV.ViewID }, raiseEventOptions, SendOptions.SendReliable);
         }
     }
 
@@ -612,7 +617,6 @@ public class PlayerMovement : MonoBehaviour
         _playerAnimator.SetTrigger("CancelEmote");
     }
     
-
     // Plays animations
     private void Animations()
     {
@@ -622,5 +626,50 @@ public class PlayerMovement : MonoBehaviour
         _playerAnimator.SetBool("isCrouching", isCrouching);
         
         _playerAnimator.SetBool("isGrounded", isGrounded);
+
+        _playerAnimator.SetBool("isJump", isJumping);
+
+        _playerAnimator.SetBool("isWallrunning", onWall);
+    }
+
+    public const byte EmoteAnimate = 1;
+    public const byte CancelEmoteAnimate = 2;
+
+    private void OnEvent(EventData photonEvent)
+    {
+        byte eventCode = photonEvent.Code;
+
+        if (eventCode == EmoteAnimate)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            int targetPV = (int)data[0];
+
+            if (targetPV == PV.ViewID)
+            {
+                Debug.Log((string)data[1]);
+                _playerAnimator.SetTrigger((string)data[1]);
+            }
+        } else if (eventCode == CancelEmoteAnimate)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            int targetPV = (int)data[0];
+
+            if (targetPV == PV.ViewID)
+            {
+                CancelEmote();
+            }
+        }
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
     }
 }
