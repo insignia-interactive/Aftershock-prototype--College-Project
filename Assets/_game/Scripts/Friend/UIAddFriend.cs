@@ -21,6 +21,7 @@ public class UIAddFriend : MonoBehaviour
         
         if(string.IsNullOrEmpty(displayName)) return;
         
+        // Invokes the OnAddFriend event
         OnAddFriend?.Invoke(displayName);
     }
 }

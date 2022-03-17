@@ -38,11 +38,13 @@ public class UIDisplayInvites : MonoBehaviour
         // Unsubscribes the OnInviteDecline event to the HandleInviteDecline function
         UIInvite.OnInviteDecline -= HandleInviteDecline;
     }
-
+    
     private void HandleRoomInvite(string friend, string room)
     {
         Debug.Log($"Room invite for {friend} to room: {room}");
+        // Instantiates UIInvitePrefab into the inviteContainer
         UIInvite uiInvite = Instantiate(UIInvitePrefab, inviteContainer);
+        // Calls the Initialize function which Sets the players name
         uiInvite.Initialize(friend, room);
         contentRect.sizeDelta += increaseSize;
         

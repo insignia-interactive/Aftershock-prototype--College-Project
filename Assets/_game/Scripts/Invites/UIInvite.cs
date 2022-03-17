@@ -8,8 +8,11 @@ public class UIInvite : MonoBehaviour
     [SerializeField] private string roomName;
     [SerializeField] private TMP_Text friendNameText;
     
+    // Creates an OnInviteAccept event
     public static Action<UIInvite> OnInviteAccept = delegate {  };
+    // Creates an OnRoomInviteAccept event
     public static Action<string> OnRoomInviteAccept = delegate {  };
+    // Creates an OnInviteDecline event
     public static Action<UIInvite> OnInviteDecline = delegate {  };
     
     public void Initialize(string _friendName, string _roomName)
@@ -22,12 +25,15 @@ public class UIInvite : MonoBehaviour
 
     public void AcceptInvite()
     {
+        // Invokes OnInviteAccept event
         OnInviteAccept?.Invoke(this);
+        // Invokes OnRoomInviteAccept event
         OnRoomInviteAccept?.Invoke(roomName);
     }
 
     public void DeclineInvite()
     {
+        // Invokes OnInviteDecline event
         OnInviteDecline?.Invoke(this);
     }
 }

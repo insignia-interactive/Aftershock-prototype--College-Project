@@ -545,8 +545,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
     }
 
+    // Emote function
     public void Emote()
     {
+        // Checks if player isDancing and if player isn't dancing run the Emote code if player code is dancing then cancel Emote
         if (!isDancing)
         {
             isDancing = true;
@@ -554,12 +556,16 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             emoteCamera.Priority = 2;
             _playerAnimator.ResetTrigger("CancelEmote");
 
+            // Checks if Emote PlayerPref is set
             if (PlayerPrefs.HasKey("Emote"))
             {
+                // Save Emote PlayerPref to string variable
                 string emote = PlayerPrefs.GetString("Emote");
+                // Use Switch statement to check the Emote string
                 switch (emote)
                 {
                     case "Pushup":
+                        // Raise an event through PhotonNetwork using the EmoteAnimate event code containing the player PhotonView ID and emote string
                         PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, emote }, raiseEventOptions, SendOptions.SendReliable);
                         break;
                     case "Loser":
@@ -597,6 +603,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                         break;
                 }
             }
+            // If no PlayerPref is saved set PlayerPref to default "Loser" and raise an event
             else
             {
                 PlayerPrefs.SetString("Emote", "Loser");
@@ -620,30 +627,41 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     // Plays animations
     private void Animations()
     {
+        // Sets animation inputs
         _playerAnimator.SetFloat("InputX", x);
         _playerAnimator.SetFloat("InputY", y);
         
+        // Sets bool for isCrouching
         _playerAnimator.SetBool("isCrouching", isCrouching);
         
+        // Sets bool for isGrounded
         _playerAnimator.SetBool("isGrounded", isGrounded);
 
+        // Sets bool for isJump
         _playerAnimator.SetBool("isJump", isJumping);
 
+        // Sets bool for isWallrunning
         _playerAnimator.SetBool("isWallrunning", onWall);
     }
-
+    
     public const byte EmoteAnimate = 1;
     public const byte CancelEmoteAnimate = 2;
 
+    // Raised events through photon are recieved here
     private void OnEvent(EventData photonEvent)
     {
+        // Saves the EventCode
         byte eventCode = photonEvent.Code;
 
+        // If event code is the same as EmoteAnimate run code
         if (eventCode == EmoteAnimate)
         {
+            // Saves PhotonEvent data to an object
             object[] data = (object[])photonEvent.CustomData;
+            // Gets the PV from data variable
             int targetPV = (int)data[0];
-
+            
+            // If target is the same as PV ID then run animation sent through the event
             if (targetPV == PV.ViewID)
             {
                 Debug.Log((string)data[1]);
@@ -660,16 +678,18 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             }
         }
     }
-
+    
     public override void OnEnable()
     {
         base.OnEnable();
+        // Subscribes the EventsReceived to the OnEvent function
         PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
+        // Unsubscribes the EventsReceived to the OnEvent function
         PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
     }
 }

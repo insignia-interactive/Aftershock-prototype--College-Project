@@ -35,17 +35,21 @@ public class UIDisplayFriends : MonoBehaviour
     private void HandleDisplayFriends(List<FriendInfo> friends)
     {
         Debug.Log("UI remove prior friends displayed");
+        // Loops through friendContainer and Destroys all children
         foreach (Transform child in friendContainer)
         {
             Destroy(child.gameObject);
         }
         
+        // Sorts friendlist in order by Online and UserId
         var sortedFriends = friends.OrderByDescending(o => o.IsOnline ? 1 : 0).ThenBy(u => u.UserId);
 
         // Loops through all friends and Instantiates a new UIFriendPrefab with the info of the friend
         foreach (FriendInfo friend in sortedFriends)
         {
+            // Instantiates UIFriendPrefab into friendContainer
             UIFriend uifriend = Instantiate(UIFriendPrefab, friendContainer);
+            // Initializes the uifriend objects
             uifriend.Initialize(friend);
             contentRect.sizeDelta += increaseSize;
         }
@@ -54,6 +58,7 @@ public class UIDisplayFriends : MonoBehaviour
     private void HandleDisplayChatFriends(List<string> friends)
     {
         Debug.Log("UI remove prior friends displayed");
+        // Destroys all children
         foreach (Transform child in friendContainer)
         {
             Destroy(child.gameObject);
@@ -62,6 +67,7 @@ public class UIDisplayFriends : MonoBehaviour
         Debug.Log($"UI instantiate friends display {friends.Count}");
         contentRect.sizeDelta = orginalSize;
 
+        // Loops through friends and creates a friend object
         foreach (string friend in friends)
         {
             UIFriend uifriend = Instantiate(UIFriendPrefab, friendContainer);

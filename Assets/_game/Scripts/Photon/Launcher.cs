@@ -219,8 +219,27 @@ public class Launcher : MonoBehaviourPunCallbacks
         // Instantiates playerListItemPrefab as a child of playerListContent and runs SetUp function
         Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
         
+        // Sets player count
         roomNameText.text = PhotonNetwork.CurrentRoom.Name + " - Players: " + PhotonNetwork.CurrentRoom.PlayerCount + "/6";
         
+        // Checks if more than 2 players and if less then set interactable to false
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
+        {
+            startGameButton.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            startGameButton.GetComponent<Button>().interactable = false;
+        }
+    }
+    
+    // When a player leaves a room
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        // Sets player count
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name + " - Players: " + PhotonNetwork.CurrentRoom.PlayerCount + "/6";
+        
+        // Checks if more than 2 players and if less then set interactable to false
         if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
         {
             startGameButton.GetComponent<Button>().interactable = true;

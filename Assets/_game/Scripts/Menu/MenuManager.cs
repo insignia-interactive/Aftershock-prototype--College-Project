@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
