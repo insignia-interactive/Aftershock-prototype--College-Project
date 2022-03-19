@@ -554,7 +554,6 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             isDancing = true;
             // Swaps camera to the 3rd person camera
             emoteCamera.Priority = 2;
-            _playerAnimator.ResetTrigger("CancelEmote");
 
             // Checks if Emote PlayerPref is set
             if (PlayerPrefs.HasKey("Emote"))
@@ -664,6 +663,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             // If target is the same as PV ID then run animation sent through the event
             if (targetPV == PV.ViewID)
             {
+                _playerAnimator.ResetTrigger("CancelEmote");
                 Debug.Log((string)data[1]);
                 _playerAnimator.SetTrigger((string)data[1]);
             }

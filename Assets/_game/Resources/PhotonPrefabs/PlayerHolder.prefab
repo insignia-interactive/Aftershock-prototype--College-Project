@@ -506,7 +506,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151655517302752482}
-  m_LocalRotation: {x: 0.00024720427, y: 0.99972326, z: -0.012340368, w: 0.020026622}
+  m_LocalRotation: {x: 0.00024720418, y: 0.99972326, z: -0.012340361, w: 0.020026626}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -888,7 +888,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151655517733524014}
-  m_LocalRotation: {x: 0.0016142678, y: 0.9965466, z: -0.0805838, w: 0.019962981}
+  m_LocalRotation: {x: 0.0016142684, y: 0.9965466, z: -0.08058379, w: 0.019962996}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1277,7 +1277,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151655518405650288}
-  m_LocalRotation: {x: 0.0012444969, y: 0.9978674, z: -0.062124968, w: 0.019989433}
+  m_LocalRotation: {x: 0.0012444986, y: 0.9978674, z: -0.062124964, w: 0.019989463}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2341,11 +2341,11 @@ MonoBehaviour:
     m_Bits: 64
   PV: {fileID: 0}
   sensitivity: 100
-  moveSpeed: 4500
-  maxSpeed: 20
+  moveSpeed: 2700
+  maxSpeed: 10
   counterMovement: 0.175
   maxSlopeAngle: 35
-  slideForce: 400
+  slideForce: 200
   slideCounterMovement: 0.2
   jumpForce: 550
   x: 0
