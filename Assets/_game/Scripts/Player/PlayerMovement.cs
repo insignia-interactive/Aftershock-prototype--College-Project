@@ -88,6 +88,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
     RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
 
+    [Header("Inverse Kinematics")]
+    [Range(0,1)]
+    public float DistanceToGround;
+    public LayerMask IKLayer;
+
     public static PlayerMovement Instance { get; private set; }
 
     void Awake()
@@ -678,7 +683,46 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             }
         }
     }
-    
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (_playerAnimator)
+        {
+            float weight = 0;
+            if (isGrounded) weight = 1f; else weight = 0f;
+
+            _playerAnimator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
+            _playerAnimator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, weight);
+            _playerAnimator.SetIKPositionWeight(AvatarIKGoal.RightFoot, weight);
+            _playerAnimator.SetIKRotationWeight(AvatarIKGoal.RightFoot, weight);
+            
+            // Left foot
+            RaycastHit hit;
+            Ray ray = new Ray(_playerAnimator.GetIKPosition(AvatarIKGoal.LeftFoot) + Vector3.up, Vector3.down);
+            if (Physics.Raycast(ray, out hit, DistanceToGround + 1f, IKLayer))
+            {
+                Vector3 footPosition = hit.point;
+                footPosition.y += DistanceToGround;
+                _playerAnimator.SetIKPosition(AvatarIKGoal.LeftFoot, footPosition);
+                
+                Vector3 forward = Vector3.ProjectOnPlane(transform.forward, hit.normal);
+                _playerAnimator.SetIKRotation(AvatarIKGoal.LeftFoot, Quaternion.LookRotation(forward,hit.normal)); 
+            }
+            
+            // Right foot
+            ray = new Ray(_playerAnimator.GetIKPosition(AvatarIKGoal.RightFoot) + Vector3.up, Vector3.down);
+            if (Physics.Raycast(ray, out hit, DistanceToGround + 1f, IKLayer))
+            {
+                Vector3 footPosition = hit.point;
+                footPosition.y += DistanceToGround;
+                _playerAnimator.SetIKPosition(AvatarIKGoal.RightFoot, footPosition);
+                
+                Vector3 forward = Vector3.ProjectOnPlane(transform.forward, hit.normal);
+                _playerAnimator.SetIKRotation(AvatarIKGoal.RightFoot, Quaternion.LookRotation(forward,hit.normal)); 
+            }
+        }
+    }
+
     public override void OnEnable()
     {
         base.OnEnable();

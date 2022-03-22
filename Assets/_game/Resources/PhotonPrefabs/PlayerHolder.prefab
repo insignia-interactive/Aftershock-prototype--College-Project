@@ -1721,6 +1721,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: -1655875330158105824, guid: 8efb6875e7477524a92c5da246b54380, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1655875330158105824, guid: 8efb6875e7477524a92c5da246b54380, type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1655875330158105824, guid: 8efb6875e7477524a92c5da246b54380, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7a7abc163f1111649a1e6b1d45f7e8db, type: 2}
     - target: {fileID: -1565191040001347648, guid: 8efb6875e7477524a92c5da246b54380, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -2363,6 +2375,10 @@ MonoBehaviour:
   isCrouching: 0
   isDancing: 0
   isJumping: 0
+  DistanceToGround: 0.09
+  IKLayer:
+    serializedVersion: 2
+    m_Bits: 119
 --- !u!114 &7824652863948554507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2489,7 +2505,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5195812062358592072}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: dfc7c386bc77b494b916ac5a824ed1ab, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.002122199
