@@ -688,13 +688,13 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     {
         if (_playerAnimator)
         {
-            float weight = 0;
-            if (isGrounded) weight = 1f; else weight = 0f;
+            float IKLeftFootWeight = _playerAnimator.GetFloat("IKLeftFootWeight");
+            float IKRightFootWeight = _playerAnimator.GetFloat("IKRightFootWeight");
 
-            _playerAnimator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
-            _playerAnimator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, weight);
-            _playerAnimator.SetIKPositionWeight(AvatarIKGoal.RightFoot, weight);
-            _playerAnimator.SetIKRotationWeight(AvatarIKGoal.RightFoot, weight);
+            _playerAnimator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, IKLeftFootWeight);
+            _playerAnimator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, IKLeftFootWeight);
+            _playerAnimator.SetIKPositionWeight(AvatarIKGoal.RightFoot, IKRightFootWeight);
+            _playerAnimator.SetIKRotationWeight(AvatarIKGoal.RightFoot, IKRightFootWeight);
             
             // Left foot
             RaycastHit hit;
