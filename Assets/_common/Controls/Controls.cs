@@ -71,6 +71,51 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Primary"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e73dbfe-8575-4cb4-a2f7-7b4bf52edec6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Secondary"",
+                    ""type"": ""Button"",
+                    ""id"": ""eb457421-d50a-45ee-a6f2-ff5767a0a0e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ControllerSwap"",
+                    ""type"": ""Button"",
+                    ""id"": ""e6065e0d-d4eb-454c-b616-845c5b319287"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ScrollSwap"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""3d3db40e-1647-44c9-a92a-7a7eb882bc45"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""ab9f8d07-877e-424e-8030-6bdf9cb6a78c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -282,6 +327,72 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Emote"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""46fdf8b1-417e-49a3-b2e8-80951a70b770"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Primary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c3589b2-5416-44fe-aead-682a992ab50e"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d00d3d8a-b306-4d2f-af46-f7f7eb5ed646"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""ControllerSwap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8d09942-4b8c-4031-b97d-f71eadfe6235"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""ScrollSwap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""208b29de-9c6f-4c52-b4d3-cb1147598c09"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ca6b5d7-6516-46ae-bfb3-b5d871462e0f"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -323,6 +434,11 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Emote = m_Player.FindAction("Emote", throwIfNotFound: true);
+        m_Player_Primary = m_Player.FindAction("Primary", throwIfNotFound: true);
+        m_Player_Secondary = m_Player.FindAction("Secondary", throwIfNotFound: true);
+        m_Player_ControllerSwap = m_Player.FindAction("ControllerSwap", throwIfNotFound: true);
+        m_Player_ScrollSwap = m_Player.FindAction("ScrollSwap", throwIfNotFound: true);
+        m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -387,6 +503,11 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Emote;
+    private readonly InputAction m_Player_Primary;
+    private readonly InputAction m_Player_Secondary;
+    private readonly InputAction m_Player_ControllerSwap;
+    private readonly InputAction m_Player_ScrollSwap;
+    private readonly InputAction m_Player_Shoot;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -396,6 +517,11 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @Emote => m_Wrapper.m_Player_Emote;
+        public InputAction @Primary => m_Wrapper.m_Player_Primary;
+        public InputAction @Secondary => m_Wrapper.m_Player_Secondary;
+        public InputAction @ControllerSwap => m_Wrapper.m_Player_ControllerSwap;
+        public InputAction @ScrollSwap => m_Wrapper.m_Player_ScrollSwap;
+        public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -420,6 +546,21 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Emote.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEmote;
                 @Emote.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEmote;
                 @Emote.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEmote;
+                @Primary.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimary;
+                @Primary.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimary;
+                @Primary.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimary;
+                @Secondary.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondary;
+                @Secondary.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondary;
+                @Secondary.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondary;
+                @ControllerSwap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControllerSwap;
+                @ControllerSwap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControllerSwap;
+                @ControllerSwap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControllerSwap;
+                @ScrollSwap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollSwap;
+                @ScrollSwap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollSwap;
+                @ScrollSwap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollSwap;
+                @Shoot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -439,6 +580,21 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Emote.started += instance.OnEmote;
                 @Emote.performed += instance.OnEmote;
                 @Emote.canceled += instance.OnEmote;
+                @Primary.started += instance.OnPrimary;
+                @Primary.performed += instance.OnPrimary;
+                @Primary.canceled += instance.OnPrimary;
+                @Secondary.started += instance.OnSecondary;
+                @Secondary.performed += instance.OnSecondary;
+                @Secondary.canceled += instance.OnSecondary;
+                @ControllerSwap.started += instance.OnControllerSwap;
+                @ControllerSwap.performed += instance.OnControllerSwap;
+                @ControllerSwap.canceled += instance.OnControllerSwap;
+                @ScrollSwap.started += instance.OnScrollSwap;
+                @ScrollSwap.performed += instance.OnScrollSwap;
+                @ScrollSwap.canceled += instance.OnScrollSwap;
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
             }
         }
     }
@@ -468,5 +624,10 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnEmote(InputAction.CallbackContext context);
+        void OnPrimary(InputAction.CallbackContext context);
+        void OnSecondary(InputAction.CallbackContext context);
+        void OnControllerSwap(InputAction.CallbackContext context);
+        void OnScrollSwap(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
 }

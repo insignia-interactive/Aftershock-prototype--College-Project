@@ -7,21 +7,22 @@ public class InputManager : MonoBehaviour
     private PlayerManager _playerManager;
     private Controls _controls;
 
-    private PlayerMovement _playerMovement;
+    private PlayerController _playerController;
 
     private Rigidbody _rigidbody;
 
     [SerializeField] private Transform cameraHolder;
     [SerializeField] private GameObject FPSCam;
     [SerializeField] private GameObject EmoteCam;
+    [SerializeField] private Camera cam;
 
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
         _playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
 
-        _playerMovement = GetComponentInChildren<PlayerMovement>();
-        _playerMovement.PV = PV;
+        _playerController = GetComponentInChildren<PlayerController>();
+        _playerController.PV = PV;
 
         // If PhotonView is owned by player allow them to use input
         if (PV.IsMine)
@@ -29,27 +30,40 @@ public class InputManager : MonoBehaviour
             _controls = new Controls();
         
             // Jumping
-            _controls.Player.Jump.started += _ => _playerMovement.jumping = true;
-            _controls.Player.Jump.performed += _ => _playerMovement.jumping = true;
-            _controls.Player.Jump.canceled += _ => _playerMovement.jumping = false;
+            _controls.Player.Jump.started += _ => _playerController.jumping = true;
+            _controls.Player.Jump.performed += _ => _playerController.jumping = true;
+            _controls.Player.Jump.canceled += _ => _playerController.jumping = false;
         
             // Crouching
-            _controls.Player.Crouch.started += _ => _playerMovement.StartCrouch();
-            _controls.Player.Crouch.performed += _ => _playerMovement.isCrouching = true;
-            _controls.Player.Crouch.canceled += _ => _playerMovement.StopCrouch();
+            _controls.Player.Crouch.started += _ => _playerController.StartCrouch();
+            _controls.Player.Crouch.performed += _ => _playerController.isCrouching = true;
+            _controls.Player.Crouch.canceled += _ => _playerController.StopCrouch();
         
             // Emote
-            _controls.Player.Emote.performed += _ => _playerMovement.Emote();
+            _controls.Player.Emote.performed += _ => _playerController.Emote();
+            
+            // WeaponSwap
+            _controls.Player.ControllerSwap.performed += _ => XboxSwap();
+            _controls.Player.Primary.performed += _ => _playerController.EquipItem(0);
+            _controls.Player.Secondary.performed += _ => _playerController.EquipItem(1);
+            
+            // WeaponShoot
+            _controls.Player.Shoot.performed += _ => Shoot();
         }
     }
 
     private void Start()
     {
         // If PhotonView is not owned by player delete the cameras and rigidbody (Rigidbody isnt needed as postions, rotation and animations are synced across the server || Camera isnt needed as it can cause the wrong camera to be displayed)
-        if (!PV.IsMine)
+        if (PV.IsMine)
+        {
+            _playerController.EquipItem(0);
+        }
+        else
         {
             FPSCam.SetActive(false);
             EmoteCam.SetActive(false);
+            Destroy(cam);
             Destroy(_rigidbody);
         }
     }
@@ -57,6 +71,8 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         MyInput();
+        
+        ScrollSwap();
     }
 
     public void MyInput()
@@ -64,11 +80,54 @@ public class InputManager : MonoBehaviour
         // If PhotonView is owned by player allow them to use input
         if (PV.IsMine)
         {
-            _playerMovement.x = _controls.Player.Movement.ReadValue<Vector2>().x;
-            _playerMovement.y = _controls.Player.Movement.ReadValue<Vector2>().y;
+            _playerController.x = _controls.Player.Movement.ReadValue<Vector2>().x;
+            _playerController.y = _controls.Player.Movement.ReadValue<Vector2>().y;
             
-            _playerMovement.mouseX = _controls.Player.Mouse.ReadValue<Vector2>().x;
-            _playerMovement.mouseY = _controls.Player.Mouse.ReadValue<Vector2>().y;
+            _playerController.mouseX = _controls.Player.Mouse.ReadValue<Vector2>().x;
+            _playerController.mouseY = _controls.Player.Mouse.ReadValue<Vector2>().y;
+        }
+    }
+
+    void Shoot()
+    {
+        _playerController.items[_playerController.itemIndex].Use();
+    }
+
+    void XboxSwap()
+    {
+        if (_playerController.itemIndex == 0)
+        {
+            _playerController.EquipItem(1);
+        } else if (_playerController.itemIndex == 1)
+        {
+            _playerController.EquipItem(0);
+        }
+    }
+
+    void ScrollSwap()
+    {
+        float z = _controls.Player.ScrollSwap.ReadValue<float>();
+
+        if (z > 0)
+        {
+            // Scroll UP
+            if (_playerController.itemIndex == 0)
+            {
+                _playerController.EquipItem(1);
+            } else if (_playerController.itemIndex == 1)
+            {
+                _playerController.EquipItem(0);
+            }
+        } else if (z < 0)
+        {
+            // Scroll DOWN
+            if (_playerController.itemIndex == 0)
+            {
+                _playerController.EquipItem(1);
+            } else if (_playerController.itemIndex == 1)
+            {
+                _playerController.EquipItem(0);
+            }
         }
     }
 

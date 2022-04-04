@@ -10,16 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3608d1b8a054c1a4d801ce43c3cefe21, type: 3}
-  m_Name: AK-47
+  m_Name: Sawed-Off
   m_EditorClassIdentifier: 
-  itemName: AK-47
-  head: 50
-  upperTorso: 20
-  lowerTorso: 15
-  limb: 10
-  fireRate: 0.5
-  reloadTime: 1
-  range: 500
-  magSize: 32
+  itemName: Sawed-Off
+  head: 100
+  upperTorso: 100
+  lowerTorso: 75
+  limb: 40
+  fireRate: 1
+  reloadTime: 2
+  range: 10
+  magSize: 2
+  isAutomatic: 0
+  isProjectile: 0
+  projectile: {fileID: 0}
   shot: {fileID: 0}
   reload: {fileID: 0}

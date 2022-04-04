@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Gun", menuName = "Customisation/New Gun")]
-public class GunObject : ScriptableObject
+public class GunInfo : ItemInfo
 {
     [Header("Damage")]
     public float head = 0f;
@@ -11,12 +11,9 @@ public class GunObject : ScriptableObject
 
     [Header("Stats")]
     public float fireRate = 0f;
+    public float reloadTime = 0f;
     public float range = 0f;
-    public bool isAutomatic;
-
-    [Header("Projectile")]
-    public bool isProjectile = false;
-    public GameObject projectile = null;
+    public int magSize = 0;
 
     [Header("Audio")]
     public AudioClip shot;

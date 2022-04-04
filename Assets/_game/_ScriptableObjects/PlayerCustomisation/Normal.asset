@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a37d62003f8764a985da6242170a4f, type: 3}
   m_Name: Normal
   m_EditorClassIdentifier: 
+  className: Normal
   moveSpeed: 2700
   maxSpeed: 10
   counterMovement: 0.175

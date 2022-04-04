@@ -4,8 +4,9 @@ using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PlayerMovement : MonoBehaviourPunCallbacks
+public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 {
     [Header("Assignables")]
     [Tooltip("this is a reference to the MainCamera object, not the parent of it.")]
@@ -20,9 +21,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private Rigidbody _rigidbody;
     private Animator _playerAnimator;
     public PhotonView PV;
+    private PlayerManager _playerManager;
 
     [Header("Player Type")]
-    public PlayerObject playerObject;
+    public PlayerInfo playerInfo;
 
     [Header("Rotation and look")]
     [Tooltip("mouse/look sensitivity")]
@@ -98,7 +100,16 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public float DistanceToGround;
     public LayerMask IKLayer;
 
-    public static PlayerMovement Instance { get; private set; }
+    [Header("Items")] 
+    public Item[] items;
+    [HideInInspector] public int itemIndex;
+    private int previousItemIndex = -1;
+
+    [Header("Health")] 
+    private float maxHealth = 100f;
+    private float currentHealth = 100f;
+
+    public static PlayerController Instance { get; private set; }
 
     void Awake()
     {
@@ -106,19 +117,23 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
         _rigidbody = GetComponent<Rigidbody>();
         _playerAnimator = GetComponent<Animator>();
+        _playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
 
-        if(playerObject != null)
+        if(playerInfo != null)
         {
-            moveSpeed = playerObject.moveSpeed;
-            maxSpeed = playerObject.maxSpeed;
-            counterMovement = playerObject.counterMovement;
-            slideForce = playerObject.slideForce;
-            slideCounterMovement = playerObject.slideCounterMovement;
-            jumpForce = playerObject.jumpForce;
+            moveSpeed = playerInfo.moveSpeed;
+            maxSpeed = playerInfo.maxSpeed;
+            counterMovement = playerInfo.counterMovement;
+            slideForce = playerInfo.slideForce;
+            slideCounterMovement = playerInfo.slideCounterMovement;
+            jumpForce = playerInfo.jumpForce;
 
-            initialForce = playerObject.initialForce;
-            escapeForce = playerObject.escapeForce;
-            useWallrunning = playerObject.UseWallrunning;
+            initialForce = playerInfo.initialForce;
+            escapeForce = playerInfo.escapeForce;
+            useWallrunning = playerInfo.UseWallrunning;
+
+            maxHealth = playerInfo.maxHealth;
+            currentHealth = maxHealth;
         }
         
     }
@@ -151,6 +166,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         
         // Calls the Animations function
         Animations();
+
+        if (transform.position.y < -10f)
+        {
+            Die();
+        }
     }
 
     private void LateUpdate()
@@ -742,6 +762,63 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 _playerAnimator.SetIKRotation(AvatarIKGoal.RightFoot, Quaternion.LookRotation(forward,hit.normal)); 
             }
         }
+    }
+
+    public void EquipItem(int _index)
+    {
+        if (_index == previousItemIndex) return;
+        
+        itemIndex = _index;
+        
+        items[itemIndex].itemGameObject.SetActive(true);
+
+        if (previousItemIndex != -1)
+        {
+            items[previousItemIndex].itemGameObject.SetActive(false);
+        }
+
+        previousItemIndex = itemIndex;
+
+        if (PV.IsMine)
+        {
+            Hashtable hash = new Hashtable();
+            hash.Add("itemIndex", itemIndex);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if (!PV.IsMine && targetPlayer == PV.Owner)
+        {
+            EquipItem((int)changedProps["itemIndex"]);
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+    }
+
+    [PunRPC]
+    void RPC_TakeDamage(float damage)
+    {
+        if (!PV.IsMine)
+        {
+            return;
+        }
+
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        _playerManager.Die();
     }
 
     public override void OnEnable()

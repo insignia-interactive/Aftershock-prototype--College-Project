@@ -34,6 +34,12 @@ public class PlayerManager : MonoBehaviour
         _inputManager.SetRotation(spawnpoint);
     }
 
+    public void Die()
+    {
+        PhotonNetwork.Destroy(controller);
+        CreateController();
+    }
+
     public void Respawn()
     {
         // Gets random spawnpoint from SpawnManager script
