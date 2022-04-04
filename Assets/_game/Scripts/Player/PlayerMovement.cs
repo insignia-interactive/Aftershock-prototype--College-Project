@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public Transform playerCam;
     public CinemachineVirtualCamera mainCamera;
     public CinemachineFreeLook emoteCamera;
+    public GameObject GunHolder;
     [Tooltip("reference to orientation object, needed for moving forward and not up or something.")]
     public Transform orientation;
     [Tooltip("LayerMask for ground layer, important because otherwise the collision detection wont know what ground is")]
@@ -20,11 +21,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private Animator _playerAnimator;
     public PhotonView PV;
 
+    [Header("Player Type")]
+    public PlayerObject playerObject;
+
     [Header("Rotation and look")]
-    private float xRotation;
     [Tooltip("mouse/look sensitivity")]
     public float sensitivity = 50f;
     private float sensMultiplier = 0.02f;
+    private float xRotation;
 
     private float defaultFOV = 90f;
     private float zoomOutFOV = 105f;
@@ -47,15 +51,12 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private float jumpCooldown = 0.25f;
     [Tooltip("this determines the jump force but is also applied when jumping off of walls, if you decrease it, you may end up being able to walljump and then get back onto the wall leading to infinite height.")]
     public float jumpForce = 550f; 
-    public float x, y;
-    public float mouseX, mouseY;
-    public bool jumping;
+    [HideInInspector] public float x, y;
+    [HideInInspector] public float mouseX, mouseY;
+    [HideInInspector] public bool jumping;
     private Vector3 normalVector = Vector3.up;
 
     [Header("Wallrunning")]
-    private float actualWallRotation;
-    private float wallRotationVel;
-    private Vector3 wallNormalVector;
     [Tooltip("when wallrunning, an upwards force is constantly applied to negate gravity by about half (at default), increasing this value will lead to more upwards force and decreasing will lead to less upwards force.")]
     public float wallRunGravity = 1;
     [Tooltip("when a wallrun is started, an upwards force is applied, this describes that force.")]
@@ -69,6 +70,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public bool isWallRunning;
     [Tooltip("a bool to determine whether or not to actually allow wallrunning.")]
     public bool useWallrunning = true;
+
+    private float actualWallRotation;
+    private float wallRotationVel;
+    private Vector3 wallNormalVector;
 
     [Header("Collisions")]
     [Tooltip("a bool to check if the player is on the ground.")]
@@ -101,6 +106,20 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
         _rigidbody = GetComponent<Rigidbody>();
         _playerAnimator = GetComponent<Animator>();
+
+        if(playerObject != null)
+        {
+            moveSpeed = playerObject.moveSpeed;
+            maxSpeed = playerObject.maxSpeed;
+            counterMovement = playerObject.counterMovement;
+            slideForce = playerObject.slideForce;
+            slideCounterMovement = playerObject.slideCounterMovement;
+            jumpForce = playerObject.jumpForce;
+
+            initialForce = playerObject.initialForce;
+            escapeForce = playerObject.escapeForce;
+            useWallrunning = playerObject.UseWallrunning;
+        }
         
     }
 
@@ -281,7 +300,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
         //Rotate, and also make sure we dont over- or under-rotate.
         xRotation -= mouseY;
-        float clamp = 89.5f;
+        float clamp = 70;
         xRotation = Mathf.Clamp(xRotation, -clamp, clamp);
 
         //Perform the rotations
@@ -626,6 +645,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         // Swaps camera back to the FPS camera
         emoteCamera.Priority = 0;
         _playerAnimator.SetTrigger("CancelEmote");
+        GunHolder.SetActive(true);
     }
     
     // Plays animations
@@ -671,6 +691,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 _playerAnimator.ResetTrigger("CancelEmote");
                 Debug.Log((string)data[1]);
                 _playerAnimator.SetTrigger((string)data[1]);
+                GunHolder.SetActive(false);
             }
         } else if (eventCode == CancelEmoteAnimate)
         {
