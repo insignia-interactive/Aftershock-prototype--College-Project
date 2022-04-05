@@ -11,8 +11,10 @@ public class GunInfo : ItemInfo
 
     [Header("Stats")]
     public float fireRate = 0f;
+    public float bulletSpeed = 1000f;
+    public float bulletDrop = 0f;
+    public float bulletLife = 10f;
     public float reloadTime = 0f;
-    public float range = 0f;
     public int magSize = 0;
 
     [Header("Audio")]
