@@ -728,6 +728,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             object[] data = (object[])photonEvent.CustomData;
             int targetPV = (int)data[0];
 
+            Debug.Log("Shot Event Received");
+            
             if (targetPV == PV.ViewID)
             {
                 currentHealth -= (float)data[1];
