@@ -690,7 +690,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     
     public const byte EmoteAnimate = 1;
     public const byte CancelEmoteAnimate = 2;
-    public const byte TakeDamageEvent = 3;
 
     // Raised events through photon are recieved here
     private void OnEvent(EventData photonEvent)
@@ -723,23 +722,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (targetPV == PV.ViewID)
             {
                 CancelEmote();
-            }
-        } 
-        else if (eventCode == TakeDamageEvent)
-        {
-            object[] data = (object[])photonEvent.CustomData;
-            int targetPV = (int)data[0];
-
-            Debug.Log("Shot Event Received");
-            
-            if (targetPV == PV.ViewID)
-            {
-                currentHealth -= (float)data[1];
-
-                if (currentHealth <= 0)
-                {
-                    Die();
-                }
             }
         }
     }
@@ -816,7 +798,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void TakeDamage(float damage)
     {
-        PhotonNetwork.RaiseEvent(TakeDamageEvent, new object[] { PV.ViewID, damage }, raiseEventOptions, SendOptions.SendReliable);
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+    }
+
+    [PunRPC]
+    void RPC_TakeDamage(float damage)
+    {
+        if (!PV.IsMine)
+        {
+            return;
+        }
+
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     void Die()
