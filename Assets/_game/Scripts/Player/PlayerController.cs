@@ -802,7 +802,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void RPC_TakeDamage(float damage)
+    public void RPC_TakeDamage(float damage)
     {
         if (!PV.IsMine)
         {
