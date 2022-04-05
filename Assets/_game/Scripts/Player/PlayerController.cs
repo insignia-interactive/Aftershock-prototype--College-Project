@@ -812,7 +812,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void TakeDamage(float damage)
     {
-        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, damage }, raiseEventOptions, SendOptions.SendReliable);
+        PhotonNetwork.RaiseEvent(TakeDamageEvent, new object[] { PV.ViewID, damage }, raiseEventOptions, SendOptions.SendReliable);
     }
 
     [PunRPC]
