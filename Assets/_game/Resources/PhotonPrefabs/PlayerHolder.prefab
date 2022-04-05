@@ -1030,7 +1030,7 @@ MonoBehaviour:
   cameraHolder: {fileID: 151655518406932164}
   FPSCam: {fileID: 151655518120331416}
   EmoteCam: {fileID: 151655517482426688}
-  cam: {fileID: 0}
+  cam: {fileID: 5675695692025645971}
 --- !u!1 &151655518120331416
 GameObject:
   m_ObjectHideFlags: 0

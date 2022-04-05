@@ -6,7 +6,7 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
+public class PlayerController : MonoBehaviourPunCallbacks
 {
     [Header("Assignables")]
     [Tooltip("this is a reference to the MainCamera object, not the parent of it.")]
@@ -690,6 +690,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     
     public const byte EmoteAnimate = 1;
     public const byte CancelEmoteAnimate = 2;
+    public const byte TakeDamageEvent = 3;
 
     // Raised events through photon are recieved here
     private void OnEvent(EventData photonEvent)
@@ -721,6 +722,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             if (targetPV == PV.ViewID)
             {
                 CancelEmote();
+            }
+        } else if (eventCode == TakeDamageEvent)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            int targetPV = (int)data[0];
+
+            if (targetPV == PV.ViewID)
+            {
+                currentHealth -= (float)data[1];
+
+                if (currentHealth <= 0)
+                {
+                    Die();
+                }
             }
         }
     }
@@ -797,12 +812,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public void TakeDamage(float damage)
     {
-        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+        PhotonNetwork.RaiseEvent(EmoteAnimate, new object[] { PV.ViewID, damage }, raiseEventOptions, SendOptions.SendReliable);
     }
 
     [PunRPC]
     void RPC_TakeDamage(float damage)
     {
+        Debug.Log("Test");
+        
         if (!PV.IsMine)
         {
             return;

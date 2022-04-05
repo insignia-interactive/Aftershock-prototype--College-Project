@@ -63,7 +63,7 @@ public class InputManager : MonoBehaviour
         {
             FPSCam.SetActive(false);
             EmoteCam.SetActive(false);
-            Destroy(cam);
+            Destroy(cam.gameObject);
             Destroy(_rigidbody);
         }
     }
@@ -71,8 +71,11 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         MyInput();
-        
-        ScrollSwap();
+
+        if (PV.IsMine)
+        {
+            ScrollSwap();
+        }
     }
 
     public void MyInput()

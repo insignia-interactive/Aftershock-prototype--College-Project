@@ -91,22 +91,22 @@ public class SingleshotGun : Gun
             if (hit.collider.gameObject.name == "Head")
             {
                 Debug.Log("Headshot");
-                hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).head);
+                hit.collider.gameObject.GetComponent<PlayerController>()?.TakeDamage(((GunInfo)itemInfo).head);
                 break;
             } else if (hit.collider.gameObject.name == "LowerSpine")
             {
                 Debug.Log("LowerTorso Shot");
-                hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).lowerTorso);
+                hit.collider.gameObject.GetComponent<PlayerController>()?.TakeDamage(((GunInfo)itemInfo).lowerTorso);
                 break;
             } else if (hit.collider.gameObject.name == "UpperSpine")
             {
                 Debug.Log("UpperTorso Shot");
-                hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).upperTorso);
+                hit.collider.gameObject.GetComponent<PlayerController>()?.TakeDamage(((GunInfo)itemInfo).upperTorso);
                 break;
             } else if (hit.collider.gameObject.name == "RightArm" || hit.collider.gameObject.name == "RightForeArm" || hit.collider.gameObject.name == "RightHand" || hit.collider.gameObject.name == "LeftArm" || hit.collider.gameObject.name == "LeftForeArm" || hit.collider.gameObject.name == "LeftHand" || hit.collider.gameObject.name == "RightUpperLeg" || hit.collider.gameObject.name == "RightLowerLeg" || hit.collider.gameObject.name == "RightFoot" || hit.collider.gameObject.name == "LeftUpperLeg" || hit.collider.gameObject.name == "LeftLowerLeg" || hit.collider.gameObject.name == "LeftFoot")
             {
                 Debug.Log("Limb Shot");
-                hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).limb);
+                hit.collider.gameObject.GetComponent<PlayerController>()?.TakeDamage(((GunInfo)itemInfo).limb);
                 break;
             }
             else
