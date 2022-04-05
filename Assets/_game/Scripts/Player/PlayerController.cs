@@ -817,24 +817,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         PhotonNetwork.RaiseEvent(TakeDamageEvent, new object[] { PV.ViewID, damage }, raiseEventOptions, SendOptions.SendReliable);
     }
 
-    [PunRPC]
-    void RPC_TakeDamage(float damage)
-    {
-        Debug.Log("Test");
-        
-        if (!PV.IsMine)
-        {
-            return;
-        }
-
-        currentHealth -= damage;
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
     void Die()
     {
         _playerManager.Die();
