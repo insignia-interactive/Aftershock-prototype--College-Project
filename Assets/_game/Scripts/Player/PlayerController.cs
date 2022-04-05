@@ -714,7 +714,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 _playerAnimator.SetTrigger((string)data[1]);
                 GunHolder.SetActive(false);
             }
-        } else if (eventCode == CancelEmoteAnimate)
+        } 
+        else if (eventCode == CancelEmoteAnimate)
         {
             object[] data = (object[])photonEvent.CustomData;
             int targetPV = (int)data[0];
@@ -723,7 +724,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 CancelEmote();
             }
-        } else if (eventCode == TakeDamageEvent)
+        } 
+        else if (eventCode == TakeDamageEvent)
         {
             object[] data = (object[])photonEvent.CustomData;
             int targetPV = (int)data[0];
