@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
   m_Name: PlayFabEditorPrefsSO
   m_EditorClassIdentifier: 
-  DevAccountEmail: admin@insigniainteractive.co.uk
-  DevAccountToken: 4a9fxinqppm7qoq6z9b1qmis1epwx9qufng8j5c5ksc9p4tmodt398oyc7amfp4a7c33ma9bube7ujxonw1pbgtq3pes37g4m3ikyh7up4bmiq5p4j4iyj7jg3uszgrpmy88afa4bhe4bbqencbjrzi86hfjr3a9nch4xey8iko1pixq7ujpdzk1fddja33mujma6fka
-  SelectedStudio: Insignia Interactive
-  SdkPath: Assets/PlayFabSDK
+  DevAccountEmail: 
+  DevAccountToken: 
+  SelectedStudio: 
+  SdkPath: 
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 0
-  curMainMenuIdx: 2
-  curSubMenuIdx: 1
+  curMainMenuIdx: 0
+  curSubMenuIdx: 0
