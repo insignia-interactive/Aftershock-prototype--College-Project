@@ -51,7 +51,12 @@ ModelImporter:
   - first:
       74: -844038341769866459
     second: Trigger2|TriggerAction.001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 930c67b54b5a0ce4385edb3a64de4b53, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
