@@ -801,13 +801,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
 
-    [PunRPC]
-    public void RPC_TakeDamage(float damage)
+    public void RPC_TakeDamageEvent(float damage)
     {
-        if (!PV.IsMine)
-        {
-            return;
-        }
+        if (!PV.IsMine) return;
 
         currentHealth -= damage;
 
