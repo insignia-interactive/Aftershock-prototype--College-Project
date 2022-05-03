@@ -1,12 +1,16 @@
 using System.IO;
+using ExitGames.Client.Photon;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class PlayerManager : MonoBehaviour
 {
     private PhotonView PV;
     private GameObject controller;
     private InputManager _inputManager;
+    
+    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
 
     private void Awake()
     {
@@ -34,8 +38,12 @@ public class PlayerManager : MonoBehaviour
         _inputManager.SetRotation(spawnpoint);
     }
 
-    public void Die()
+    public const byte KillDeathEvent = 10;
+    
+    public void Die(Player killer, Player dead)
     {
+        PhotonNetwork.RaiseEvent(KillDeathEvent, new object[] { killer, dead }, raiseEventOptions, SendOptions.SendReliable);
+        
         PhotonNetwork.Destroy(controller);
         CreateController();
     }

@@ -15,6 +15,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private GameObject FPSCam;
     [SerializeField] private GameObject EmoteCam;
     [SerializeField] private Camera cam;
+    [SerializeField] private GameObject healthBar;
 
     private void Awake()
     {
@@ -65,6 +66,7 @@ public class InputManager : MonoBehaviour
             EmoteCam.SetActive(false);
             Destroy(cam.gameObject);
             Destroy(_rigidbody);
+            Destroy(healthBar);
         }
     }
 

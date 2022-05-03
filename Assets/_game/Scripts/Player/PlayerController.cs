@@ -4,6 +4,7 @@ using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
@@ -106,9 +107,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     private int previousItemIndex = -1;
 
     [Header("Health")] 
+    [SerializeField] private Image bloodSplatter;
     private float maxHealth = 100f;
     private float currentHealth = 100f;
-
+    
     public static PlayerController Instance { get; private set; }
 
     void Awake()
@@ -169,7 +171,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (transform.position.y < -10f)
         {
-            Die();
+            Die(PV.Owner, PV.Owner);
         }
     }
 
@@ -690,6 +692,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     
     public const byte EmoteAnimate = 1;
     public const byte CancelEmoteAnimate = 2;
+    
+    public const byte KillDeathEvent = 10;
 
     // Raised events through photon are recieved here
     private void OnEvent(EventData photonEvent)
@@ -796,26 +800,28 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Player killer)
     {
-        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, killer);
     }
 
-    public void RPC_TakeDamageEvent(float damage)
+    public void RPC_TakeDamageEvent(float damage, Player killer)
     {
         if (!PV.IsMine) return;
 
         currentHealth -= damage;
 
+        bloodSplatter.color = new Color(bloodSplatter.color.r, bloodSplatter.color.g, bloodSplatter.color.b, 1-(currentHealth/maxHealth));
+        
         if (currentHealth <= 0)
         {
-            Die();
+            Die(killer, PV.Owner);
         }
     }
 
-    void Die()
+    void Die(Player killer, Player dead)
     {
-        _playerManager.Die();
+        _playerManager.Die(killer, dead);
     }
 
     public override void OnEnable()
