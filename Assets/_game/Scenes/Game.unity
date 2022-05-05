@@ -444,6 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScoreboardObject: {fileID: 1571670186}
+  KillfeedObject: {fileID: 292692840}
   container: {fileID: 192869708}
   scoreboardItemPrefab: {fileID: 4170745315376447606, guid: eeab4d3a0b67e6144829ef7c83e3d43f, type: 3}
 --- !u!114 &159574108

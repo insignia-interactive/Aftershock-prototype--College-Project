@@ -11,6 +11,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 {
     private Controls _controls;
     [SerializeField] private GameObject ScoreboardObject;
+    [SerializeField] private GameObject KillfeedObject;
 
     [SerializeField] private Transform container;
     [SerializeField] private GameObject scoreboardItemPrefab;
@@ -35,11 +36,13 @@ public class Scoreboard : MonoBehaviourPunCallbacks
     private void EnableScoreboard()
     {
         ScoreboardObject.SetActive(true);
+        KillfeedObject.SetActive(false);
     }
 
     private void DisableScoreboard()
     {
         ScoreboardObject.SetActive(false);
+        KillfeedObject.SetActive(true);
     }
     
     public override void OnPlayerEnteredRoom(Player newPlayer)
