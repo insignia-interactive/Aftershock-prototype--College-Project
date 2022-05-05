@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AK-47
   m_EditorClassIdentifier: 
   itemName: AK-47
+  weaponIcon: {fileID: 21300000, guid: 3d9b93770ed71714aa6402b0d684cb28, type: 3}
   head: 50
   upperTorso: 20
   lowerTorso: 15

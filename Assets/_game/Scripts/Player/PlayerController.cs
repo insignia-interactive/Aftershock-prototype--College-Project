@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     [Header("Health")] 
     [SerializeField] private Image bloodSplatter;
+    [SerializeField] private Sprite OutOfBounds;
     private float maxHealth = 100f;
     private float currentHealth = 100f;
     
@@ -171,7 +172,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (transform.position.y < -10f)
         {
-            Die(PV.Owner, PV.Owner);
+            Die(PV.Owner, PV.Owner, OutOfBounds);
         }
     }
 
@@ -800,12 +801,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
     }
 
-    public void TakeDamage(float damage, Player killer)
+    public void TakeDamage(float damage, Player killer, Sprite weaponIcon)
     {
-        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, killer);
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, killer, weaponIcon);
     }
 
-    public void RPC_TakeDamageEvent(float damage, Player killer)
+    public void RPC_TakeDamageEvent(float damage, Player killer, Sprite weaponIcon)
     {
         if (!PV.IsMine) return;
 
@@ -815,13 +816,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         
         if (currentHealth <= 0)
         {
-            Die(killer, PV.Owner);
+            Die(killer, PV.Owner, weaponIcon);
         }
     }
 
-    void Die(Player killer, Player dead)
+    void Die(Player killer, Player dead, Sprite weaponIcon)
     {
-        _playerManager.Die(killer, dead);
+        _playerManager.Die(killer, dead, weaponIcon);
     }
 
     public override void OnEnable()

@@ -40,9 +40,9 @@ public class PlayerManager : MonoBehaviour
 
     public const byte KillDeathEvent = 10;
     
-    public void Die(Player killer, Player dead)
+    public void Die(Player killer, Player dead, Sprite weaponIcon)
     {
-        PhotonNetwork.RaiseEvent(KillDeathEvent, new object[] { killer, dead }, raiseEventOptions, SendOptions.SendReliable);
+        PhotonNetwork.RaiseEvent(KillDeathEvent, new object[] { killer, dead, weaponIcon }, raiseEventOptions, SendOptions.SendReliable);
         
         PhotonNetwork.Destroy(controller);
         CreateController();
