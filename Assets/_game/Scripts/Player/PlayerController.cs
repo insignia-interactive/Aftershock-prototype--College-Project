@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (transform.position.y < -10f)
         {
-            Die(PV.Owner, PV.Owner, OutOfBounds);
+            Die(PV.Owner, PV.Owner, OutOfBounds.name);
         }
     }
 
