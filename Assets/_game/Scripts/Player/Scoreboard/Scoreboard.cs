@@ -82,7 +82,8 @@ public class Scoreboard : MonoBehaviourPunCallbacks
             Debug.Log("Killer: " + killer);
             Player dead = (Player) data[1];
             Debug.Log("Dead: " + dead);
-            scoreboardItems[killer].gameObject.GetComponent<ScoreboardItem>().AddKill();
+
+            if(killer != dead) scoreboardItems[killer].gameObject.GetComponent<ScoreboardItem>().AddKill();
             scoreboardItems[dead].gameObject.GetComponent<ScoreboardItem>().AddDeath();
         }
     }

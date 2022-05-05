@@ -11,8 +11,10 @@ public class KillfeedItem : MonoBehaviour
 
     public void Initialize(Player killerData, Player deadData, Sprite weaponIcon)
     {
-        killer.text = deadData.NickName;
-        killed.text = killerData.NickName;
+        killer.text = killerData.NickName;
+        killed.text = deadData.NickName;
         icon.overrideSprite = weaponIcon;
+
+        if (killerData.NickName == deadData.NickName) killed.text = "";
     }
 }
