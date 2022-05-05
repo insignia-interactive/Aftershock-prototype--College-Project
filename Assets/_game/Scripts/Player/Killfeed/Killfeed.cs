@@ -38,7 +38,8 @@ public class Killfeed : MonoBehaviour
 
             KillfeedItem item = Instantiate(killfeedItemPrefab, container).GetComponent<KillfeedItem>();
             item.Initialize(killer, dead, weaponIcon);
-            Destroy(item, 5f);
+            item.transform.SetAsFirstSibling();
+            Destroy(item.gameObject, 5f);
         }
     }
 
