@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Sawed-Off
   m_EditorClassIdentifier: 
   itemName: Sawed-Off
+  weaponIcon: {fileID: 21300000, guid: a7a9dafc8c429054aa46ba0d2f3294d7, type: 3}
   head: 100
   upperTorso: 100
   lowerTorso: 75
   limb: 40
   fireRate: 1
+  bulletSpeed: 1000
+  bulletDrop: 0
+  bulletLife: 10
   reloadTime: 2
-  range: 10
   magSize: 2
-  isAutomatic: 0
-  isProjectile: 0
-  projectile: {fileID: 0}
   shot: {fileID: 0}
   reload: {fileID: 0}
