@@ -9,6 +9,8 @@ public class Killfeed : MonoBehaviour
     [SerializeField] private Transform container;
     [SerializeField] private GameObject killfeedItemPrefab;
 
+    [SerializeField] private Sprite[] weaponIcons;
+
     public const byte KillDeathEvent = 10;
 
     private void OnEvent(EventData photonEvent)
@@ -23,10 +25,19 @@ public class Killfeed : MonoBehaviour
             Debug.Log("Killer: " + killer);
             Player dead = (Player)data[1];
             Debug.Log("Dead: " + dead);
-            Sprite icon = (Sprite)data[2];
+
+            Sprite weaponIcon = weaponIcons[0];
+
+            foreach (Sprite icon in weaponIcons)
+            {
+                if (icon.name == (string)data[2])
+                {
+                    weaponIcon = icon;
+                }
+            }
 
             KillfeedItem item = Instantiate(killfeedItemPrefab, container).GetComponent<KillfeedItem>();
-            item.Initialize(killer, dead, icon);
+            item.Initialize(killer, dead, weaponIcon);
             Destroy(item, 5f);
         }
     }

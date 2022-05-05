@@ -806,7 +806,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, killer, weaponIcon.name);
     }
 
-    public void RPC_TakeDamageEvent(float damage, Player killer, Sprite weaponIcon)
+    public void RPC_TakeDamageEvent(float damage, Player killer, string weaponIcon)
     {
         if (!PV.IsMine) return;
 
@@ -820,7 +820,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
     }
 
-    void Die(Player killer, Player dead, Sprite weaponIcon)
+    void Die(Player killer, Player dead, string weaponIcon)
     {
         _playerManager.Die(killer, dead, weaponIcon);
     }
