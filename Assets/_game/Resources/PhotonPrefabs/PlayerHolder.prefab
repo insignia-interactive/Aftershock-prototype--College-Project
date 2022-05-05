@@ -1046,23 +1046,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerController: {fileID: 151655517135127895}
-  weaponIcons:
-  - {fileID: 21300000, guid: a791722c6d75f364f87791f8ed8e8d3e, type: 3}
-  - {fileID: 21300000, guid: 3d9b93770ed71714aa6402b0d684cb28, type: 3}
-  - {fileID: 21300000, guid: b287f2e1939929143a9d494216354dcc, type: 3}
-  - {fileID: 21300000, guid: 33f76e720d1d3034e94de683ad0aa9e9, type: 3}
-  - {fileID: 21300000, guid: 6382f256420231944aaca357b8977b07, type: 3}
-  - {fileID: 21300000, guid: d1a82e0c5bcf5824693cfbb11b158d0a, type: 3}
-  - {fileID: 21300000, guid: 321c8f14c38ca664489fecb6fbeae5fd, type: 3}
-  - {fileID: 21300000, guid: 66d78f40edfafaa458f9915af3e16db4, type: 3}
-  - {fileID: 21300000, guid: 215e6ec8e3c93f44b988db69b60bfe8b, type: 3}
-  - {fileID: 21300000, guid: 1278b5a1bc31fbf43b8938e05507cdeb, type: 3}
-  - {fileID: 21300000, guid: 01a9d098c7d85084b91928c2ce6ab851, type: 3}
-  - {fileID: 21300000, guid: ea02959a7091c154f8c6cce8f14cdbce, type: 3}
-  - {fileID: 21300000, guid: a7a9dafc8c429054aa46ba0d2f3294d7, type: 3}
-  - {fileID: 21300000, guid: 3b673f0bc89d8e14697892d146be1027, type: 3}
-  - {fileID: 21300000, guid: ea235f32e10435e40b3bfb6f9ba9620c, type: 3}
-  - {fileID: 21300000, guid: 0bd372e07a953054998f01a0e641d6ad, type: 3}
 --- !u!1 &151655518120331416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1310,7 +1293,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151655518405650288}
-  m_LocalRotation: {x: 0.0035362914, y: 0.99645, z: -0.062036727, w: 0.056800835}
+  m_LocalRotation: {x: 0.0035362951, y: 0.99645, z: -0.06203675, w: 0.05680087}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1975,7 +1958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: d858ca6af02892e44a843bfec165daab, type: 2}
   itemGameObject: {fileID: 5966899418393078892}
-  PV: {fileID: 0}
+  PV: {fileID: 5723580315946059205}
   muzzleFlash: []
   cam: {fileID: 5675695692025645971}
   raycastOrigin: {fileID: 5026372111232013397}
