@@ -87,7 +87,7 @@ public class SingleshotGun : Gun
         for (int i = 0; i < hits.Length; i++)
         {
             RaycastHit hit = hits[i];
-            
+
             if (hit.collider.gameObject.name == "Head")
             {
                 Debug.Log("Headshot");

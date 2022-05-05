@@ -803,7 +803,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public void TakeDamage(float damage, Player killer, Sprite weaponIcon)
     {
-        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, killer, weaponIcon);
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, killer, weaponIcon.name);
     }
 
     public void RPC_TakeDamageEvent(float damage, Player killer, Sprite weaponIcon)
