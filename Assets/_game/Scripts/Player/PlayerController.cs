@@ -109,9 +109,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     [Header("Health")] 
     [SerializeField] private Image bloodSplatter;
     [SerializeField] private Sprite OutOfBounds;
+    public Transform hitmarkerCanvas;
+    [SerializeField] private GameObject hitmarkerItemPrefab;
     private float maxHealth = 100f;
     private float currentHealth = 100f;
-    
+
     public static PlayerController Instance { get; private set; }
 
     void Awake()
@@ -472,7 +474,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         return v.y == -1f;
     }
-    
+
     // ground check
     private void OnCollisionStay(Collision other)
     {
@@ -499,6 +501,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
                 isJumping = false;
                 normalVector = normal;
                 cancellingGrounded = false;
+
                 CancelInvoke("StopGrounded");
             }
             // Detects if player is on the wall
@@ -538,7 +541,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             Invoke("StopSurf", Time.deltaTime * num);
         }
     }
-
+    
     // Called when player is no longer grounded
     private void StopGrounded()
     {
@@ -680,12 +683,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         
         // Sets bool for isCrouching
         _playerAnimator.SetBool("isCrouching", isCrouching);
-        
-        // Sets bool for isGrounded
-        _playerAnimator.SetBool("isGrounded", isGrounded);
-
-        // Sets bool for isJump
-        _playerAnimator.SetBool("isJump", isJumping);
 
         // Sets bool for isWallrunning
         _playerAnimator.SetBool("isWallrunning", onWall);
@@ -801,8 +798,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
     }
 
-    public void TakeDamage(float damage, Player killer, Sprite weaponIcon)
+    public void TakeDamage(float damage, Player killer, Sprite weaponIcon, bool isHeadshot)
     {
+        HitmarkerItem item = Instantiate(hitmarkerItemPrefab, hitmarkerCanvas).GetComponent<HitmarkerItem>();
+        item.Initialize(isHeadshot);
+        
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, killer, weaponIcon.name);
     }
 
