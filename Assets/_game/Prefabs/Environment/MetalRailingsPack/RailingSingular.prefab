@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 1347555636282696695}
   - component: {fileID: 356244719258943875}
   - component: {fileID: 3277024616565051161}
-  m_Layer: 0
+  - component: {fileID: 3374062511752170287}
+  m_Layer: 6
   m_Name: RailingSingular
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8948903858495076294}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: -0, y: 1.1817551, z: 0}
-  m_LocalScale: {x: 5.2057924, y: 5.2057924, z: 5.2057924}
+  m_LocalScale: {x: 5.2057924, y: 5.2057924, z: 4.630813}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3374062511752170287
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8948903858495076294}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7110325, y: 0.026993288, z: 0.39058715}
+  m_Center: {x: 0.00007633865, y: 0.000000021420416, z: -0.036422074}

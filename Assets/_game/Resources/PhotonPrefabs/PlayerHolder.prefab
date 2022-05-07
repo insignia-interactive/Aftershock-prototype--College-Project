@@ -5424,7 +5424,7 @@ MonoBehaviour:
   moveSpeed: 2700
   maxSpeed: 10
   counterMovement: 0.175
-  maxSlopeAngle: 35
+  maxSlopeAngle: 50
   slideForce: 200
   slideCounterMovement: 0.2
   jumpForce: 550
