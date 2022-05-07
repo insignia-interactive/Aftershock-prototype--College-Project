@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5788300355606661376}
   - component: {fileID: 5596659646085470764}
   - component: {fileID: 2357649583256491122}
-  m_Layer: 0
+  - component: {fileID: 2968764093955027560}
+  m_Layer: 6
   m_Name: AngledCenterSegment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2968764093955027560
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5746666338132484945}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8956176526599989920, guid: 869c440eb790cbf4aa9f721a0ec7d155, type: 3}
