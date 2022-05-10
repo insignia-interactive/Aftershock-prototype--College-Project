@@ -1,10 +1,21 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class SingleshotGun : Gun
 {
-    private Ray ray;
+    private UpdateAmmoDisplay _updateAmmoDisplay;
+
+    private int magSize;
+    private int pocketMags;
+    
+    public int currentMagAmount;
+    public int currentPocketAmount;
+    
+    private bool CanShoot = true;
+    private bool IsReloading = false;
     
     class Bullet
     {
@@ -17,12 +28,29 @@ public class SingleshotGun : Gun
     [SerializeField] private Camera cam;
     [SerializeField] private Transform raycastOrigin;
     [SerializeField] private LayerMask invisLayers;
+    private Ray ray;
 
     private List<Bullet> bullets = new List<Bullet>();
 
     private void Start()
     {
-        cam= Camera.main;
+        cam = Camera.main;
+
+        magSize = ((GunInfo) itemInfo).magSize;
+        pocketMags = ((GunInfo) itemInfo).pocketMags;
+
+        currentMagAmount = magSize;
+        currentPocketAmount = pocketMags * magSize;
+
+        _updateAmmoDisplay = GetComponentInParent<UpdateAmmoDisplay>();
+        _updateAmmoDisplay.magSize.text = currentMagAmount.ToString();
+        _updateAmmoDisplay.pocketAmmo.text = currentPocketAmount.ToString();
+        _updateAmmoDisplay.weaponIcon.sprite = ((GunInfo) itemInfo).weaponIcon;
+
+        if (transform.parent.name == "Secondary")
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     Vector3 GetPosition(Bullet bullet)
@@ -118,18 +146,43 @@ public class SingleshotGun : Gun
     
     void Shoot()
     {
-        Debug.Log("Shot");
-        
-        foreach (ParticleSystem particle in muzzleFlash)
+        if (CanShoot && currentMagAmount > 0 && !IsReloading)
         {
-            particle.Emit(1);
-        }
-        
-        ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
-        ray.origin = raycastOrigin.position;
+            CanShoot = false;
 
-        Vector3 velocity = (ray.direction).normalized * ((GunInfo) itemInfo).bulletSpeed;
-        var bullet = CreateBullet(raycastOrigin.position, velocity);
-        bullets.Add(bullet);
+            currentMagAmount--;
+            _updateAmmoDisplay.magSize.text = currentMagAmount.ToString();
+            
+            Debug.Log("Shot");
+        
+            foreach (ParticleSystem particle in muzzleFlash)
+            {
+                particle.Emit(1);
+            }
+        
+            ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+            ray.origin = raycastOrigin.position;
+
+            Vector3 velocity = (ray.direction).normalized * ((GunInfo) itemInfo).bulletSpeed;
+            var bullet = CreateBullet(raycastOrigin.position, velocity);
+            bullets.Add(bullet);
+            
+            Invoke(nameof(ResetShoot), ((GunInfo)itemInfo).fireRate);
+        }
+    }
+
+    void ResetShoot()
+    {
+        CanShoot = true;
+    }
+
+    private void OnEnable()
+    {
+        _updateAmmoDisplay.holder.transform.SetAsFirstSibling();
+    }
+
+    private void OnDisable()
+    {
+        _updateAmmoDisplay.holder.transform.SetAsLastSibling();
     }
 }

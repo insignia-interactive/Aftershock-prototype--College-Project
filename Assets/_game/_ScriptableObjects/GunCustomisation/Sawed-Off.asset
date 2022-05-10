@@ -18,11 +18,12 @@ MonoBehaviour:
   upperTorso: 100
   lowerTorso: 75
   limb: 40
-  fireRate: 1
+  fireRate: 0.5
   bulletSpeed: 1000
   bulletDrop: 0
   bulletLife: 10
-  reloadTime: 2
+  reloadTime: 3
   magSize: 2
+  pocketMags: 5
   shot: {fileID: 0}
   reload: {fileID: 0}

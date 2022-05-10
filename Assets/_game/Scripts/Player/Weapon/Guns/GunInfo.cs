@@ -16,6 +16,7 @@ public class GunInfo : ItemInfo
     public float bulletLife = 10f;
     public float reloadTime = 0f;
     public int magSize = 0;
+    public int pocketMags = 0;
 
     [Header("Audio")]
     public AudioClip shot;
