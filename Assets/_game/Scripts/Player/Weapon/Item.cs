@@ -8,4 +8,5 @@ public abstract class Item : MonoBehaviour
     public PhotonView PV;
 
     public abstract void Use();
+    public abstract void UpdateWeapon();
 }

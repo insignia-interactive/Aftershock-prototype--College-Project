@@ -787,6 +787,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             Hashtable hash = new Hashtable();
             hash.Add("itemIndex", itemIndex);
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+
+            Item itemScript = items[itemIndex].GetComponent<Item>();
+            itemScript.UpdateWeapon();
         }
     }
 
@@ -795,6 +798,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (!PV.IsMine && targetPlayer == PV.Owner)
         {
             EquipItem((int)changedProps["itemIndex"]);
+
+            Item itemScript = items[itemIndex].GetComponent<Item>();
+            itemScript.UpdateWeapon();
         }
     }
 

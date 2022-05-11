@@ -10,13 +10,13 @@ public class SingleshotGun : Gun
 
     private int magSize;
     private int pocketMags;
-    
+
     public int currentMagAmount;
     public int currentPocketAmount;
-    
+
     private bool CanShoot = true;
     private bool IsReloading = false;
-    
+
     class Bullet
     {
         public float time;
@@ -36,8 +36,8 @@ public class SingleshotGun : Gun
     {
         cam = Camera.main;
 
-        magSize = ((GunInfo) itemInfo).magSize;
-        pocketMags = ((GunInfo) itemInfo).pocketMags;
+        magSize = ((GunInfo)itemInfo).magSize;
+        pocketMags = ((GunInfo)itemInfo).pocketMags;
 
         currentMagAmount = magSize;
         currentPocketAmount = pocketMags * magSize;
@@ -45,12 +45,7 @@ public class SingleshotGun : Gun
         _updateAmmoDisplay = GetComponentInParent<UpdateAmmoDisplay>();
         _updateAmmoDisplay.magSize.text = currentMagAmount.ToString();
         _updateAmmoDisplay.pocketAmmo.text = currentPocketAmount.ToString();
-        _updateAmmoDisplay.weaponIcon.sprite = ((GunInfo) itemInfo).weaponIcon;
-
-        if (transform.parent.name == "Secondary")
-        {
-            gameObject.SetActive(false);
-        }
+        _updateAmmoDisplay.weaponIcon.sprite = ((GunInfo)itemInfo).weaponIcon;
     }
 
     Vector3 GetPosition(Bullet bullet)
@@ -66,6 +61,15 @@ public class SingleshotGun : Gun
         bullet.initialVelocity = vel;
         bullet.time = 0.0f;
         return bullet;
+    }
+
+    public void Update()
+    {
+        _updateAmmoDisplay.SetHandIK(ref_right_hand_grip, ref_left_hand_grip, rightWeight, leftWeight);
+    }
+    public override void UpdateWeapon()
+    {
+        _updateAmmoDisplay.holder.transform.SetAsFirstSibling();
     }
 
     private void LateUpdate()
@@ -174,15 +178,5 @@ public class SingleshotGun : Gun
     void ResetShoot()
     {
         CanShoot = true;
-    }
-
-    private void OnEnable()
-    {
-        _updateAmmoDisplay.holder.transform.SetAsFirstSibling();
-    }
-
-    private void OnDisable()
-    {
-        _updateAmmoDisplay.holder.transform.SetAsLastSibling();
     }
 }
