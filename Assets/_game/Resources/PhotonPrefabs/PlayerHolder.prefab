@@ -1033,6 +1033,7 @@ MonoBehaviour:
   EmoteCam: {fileID: 151655517482426688}
   cam: {fileID: 5675695692025645971}
   healthBar: {fileID: 8475140314736477624}
+  WeaponUI: {fileID: 1138487826653534028}
 --- !u!114 &8621632778306839744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,7 +1294,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151655518405650288}
-  m_LocalRotation: {x: 0.0035362951, y: 0.99645, z: -0.06203675, w: 0.05680087}
+  m_LocalRotation: {x: 0.0035362914, y: 0.99645, z: -0.062036727, w: 0.056800835}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
