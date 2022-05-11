@@ -77,7 +77,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5044679523905183868
 Transform:
   m_ObjectHideFlags: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: 2407236aa82d77f4c833da3ae743ed47, type: 2}
-  itemGameObject: {fileID: 7934090321758537767}
+  itemGameObject: {fileID: 5268780050475404106}
   PV: {fileID: 0}
   muzzleFlash:
   - {fileID: 4461759848935998493}
@@ -9996,3 +9996,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3eb7857c8e7bd02409e3a4e60205a9fe, type: 3}
   m_PrefabInstance: {fileID: 7123257332045542774}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2402231057785435636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7934090321758537767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

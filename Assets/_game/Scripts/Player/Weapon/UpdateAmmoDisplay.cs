@@ -3,9 +3,12 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Animations.Rigging;
+using Photon.Pun;
 
 public class UpdateAmmoDisplay : MonoBehaviour
 {
+    public PhotonView PV;
+    
     public GameObject holder;
     public TMP_Text magSize;
     public TMP_Text pocketAmmo;

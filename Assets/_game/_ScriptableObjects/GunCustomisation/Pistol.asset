@@ -24,6 +24,6 @@ MonoBehaviour:
   bulletLife: 10
   reloadTime: 1
   magSize: 8
-  pocketMags: 5
+  pocketMags: 1
   shot: {fileID: 0}
   reload: {fileID: 0}

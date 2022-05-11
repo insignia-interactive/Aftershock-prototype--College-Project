@@ -195,8 +195,20 @@ public class SingleshotGun : Gun
     {
         IsReloading = false;
 
-        currentPocketAmount = currentPocketAmount + currentMagAmount;
-        currentMagAmount = magSize;
+        currentPocketAmount += currentMagAmount;
+        if (currentPocketAmount == 0)
+        {
+            Debug.Log("No Ammo");
+        } else if (currentPocketAmount < magSize)
+        {
+            currentMagAmount = currentPocketAmount;
+            currentPocketAmount = 0;
+        }
+        else
+        {
+            currentMagAmount = magSize;
+            currentPocketAmount -= magSize;
+        }
 
         _updateAmmoDisplay.magSize.text = currentMagAmount.ToString();
         _updateAmmoDisplay.pocketAmmo.text = currentPocketAmount.ToString();

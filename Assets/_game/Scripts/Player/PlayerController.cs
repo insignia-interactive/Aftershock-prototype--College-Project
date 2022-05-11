@@ -787,8 +787,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             Hashtable hash = new Hashtable();
             hash.Add("itemIndex", itemIndex);
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-
-            items[itemIndex].itemGameObject.SetActive(true);
+            
             Item itemScript = items[itemIndex].GetComponent<Item>();
             itemScript.UpdateWeapon();
         }
