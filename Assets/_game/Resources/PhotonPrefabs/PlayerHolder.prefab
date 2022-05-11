@@ -5849,6 +5849,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AK-47
       objectReference: {fileID: 0}
+    - target: {fileID: 7060967850278055692, guid: 3b7d4b24c0efb2c468f3e22bb28a43b4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b7d4b24c0efb2c468f3e22bb28a43b4, type: 3}
 --- !u!4 &3724128785671585361 stripped

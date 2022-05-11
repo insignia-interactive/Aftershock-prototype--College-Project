@@ -50,6 +50,9 @@ public class InputManager : MonoBehaviour
             
             // WeaponShoot
             _controls.Player.Shoot.performed += _ => Shoot();
+
+            // Reload
+            _controls.Player.Reload.performed += _ => Reload();
         }
     }
 
@@ -96,6 +99,11 @@ public class InputManager : MonoBehaviour
     void Shoot()
     {
         _playerController.items[_playerController.itemIndex].Use();
+    }
+
+    void Reload()
+    {
+        _playerController.items[_playerController.itemIndex].GetComponent<Gun>()?.Reload();
     }
 
     void XboxSwap()

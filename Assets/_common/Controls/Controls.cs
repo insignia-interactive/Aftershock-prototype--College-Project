@@ -125,6 +125,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""4cb71f27-a2d5-4833-b2a7-0c7c6890ddc3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -424,6 +433,28 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Scoreboard"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec51601c-747c-41a3-a57b-19ab7b6f4378"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""79023036-ed27-4f36-8212-a90c28571bf3"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -471,6 +502,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_ScrollSwap = m_Player.FindAction("ScrollSwap", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Scoreboard = m_Player.FindAction("Scoreboard", throwIfNotFound: true);
+        m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -541,6 +573,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ScrollSwap;
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_Scoreboard;
+    private readonly InputAction m_Player_Reload;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -556,6 +589,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @ScrollSwap => m_Wrapper.m_Player_ScrollSwap;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputAction @Scoreboard => m_Wrapper.m_Player_Scoreboard;
+        public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -598,6 +632,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Scoreboard.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScoreboard;
                 @Scoreboard.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScoreboard;
                 @Scoreboard.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScoreboard;
+                @Reload.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -635,6 +672,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Scoreboard.started += instance.OnScoreboard;
                 @Scoreboard.performed += instance.OnScoreboard;
                 @Scoreboard.canceled += instance.OnScoreboard;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
         }
     }
@@ -670,5 +710,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnScrollSwap(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnScoreboard(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
 }

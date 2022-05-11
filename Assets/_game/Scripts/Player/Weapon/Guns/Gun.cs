@@ -12,4 +12,5 @@ public abstract class Gun : Item
 
     public abstract override void Use();
     public abstract override void UpdateWeapon();
+    public abstract void Reload();
 }

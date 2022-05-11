@@ -81,6 +81,10 @@ public class SingleshotGun : Gun
     {
         Shoot();
     }
+    public override void Reload()
+    {
+        StartReload();
+    }
 
     public void UpdateBullets(float deltaTime)
     {
@@ -178,5 +182,23 @@ public class SingleshotGun : Gun
     void ResetShoot()
     {
         CanShoot = true;
+    }
+
+    void StartReload()
+    {
+        IsReloading = true;
+
+        Invoke(nameof(StopReload), ((GunInfo)itemInfo).reloadTime);
+    }
+
+    void StopReload()
+    {
+        IsReloading = false;
+
+        currentPocketAmount = currentPocketAmount + currentMagAmount;
+        currentMagAmount = magSize;
+
+        _updateAmmoDisplay.magSize.text = currentMagAmount.ToString();
+        _updateAmmoDisplay.pocketAmmo.text = currentPocketAmount.ToString();
     }
 }
