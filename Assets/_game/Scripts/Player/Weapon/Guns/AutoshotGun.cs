@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class SingleshotGun : Gun
+public class AutoshotGun : Gun
 {
     private UpdateAmmoDisplay _updateAmmoDisplay;
 
@@ -26,7 +26,7 @@ public class SingleshotGun : Gun
         public Vector3 initialPosition;
         public Vector3 initialVelocity;
     }
-    
+
     [Header("Raycasting")]
     [SerializeField] private Camera cam;
     [SerializeField] private Transform raycastOrigin;
@@ -55,7 +55,7 @@ public class SingleshotGun : Gun
 
     Vector3 GetPosition(Bullet bullet)
     {
-        Vector3 gravity = Vector3.down * ((GunInfo) itemInfo).bulletDrop;
+        Vector3 gravity = Vector3.down * ((GunInfo)itemInfo).bulletDrop;
         return (bullet.initialPosition) + (bullet.initialVelocity * bullet.time) + (0.5f * gravity * bullet.time * bullet.time);
     }
 
@@ -112,7 +112,7 @@ public class SingleshotGun : Gun
 
     void DestroyBullets()
     {
-        bullets.RemoveAll(bullet => bullet.time > ((GunInfo) itemInfo).bulletLife);
+        bullets.RemoveAll(bullet => bullet.time > ((GunInfo)itemInfo).bulletLife);
     }
 
     void RaycastSegment(Vector3 start, Vector3 end, Bullet bullet)
@@ -121,12 +121,12 @@ public class SingleshotGun : Gun
         float distance = (direction).magnitude;
         ray.origin = start;
         ray.direction = direction;
-        
-        LayerMask layer =  ~(1 << invisLayers);
-        
+
+        LayerMask layer = ~(1 << invisLayers);
+
         RaycastHit[] hits;
         hits = Physics.RaycastAll(ray, distance, layer, QueryTriggerInteraction.Ignore);
-        
+
         for (int i = 0; i < hits.Length; i++)
         {
             RaycastHit hit = hits[i];
@@ -136,17 +136,20 @@ public class SingleshotGun : Gun
                 Debug.Log("Headshot");
                 hit.collider.gameObject.transform.root.GetComponentInChildren<PlayerController>()?.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).head, PV.Owner, ((GunInfo)itemInfo).weaponIcon, true);
                 break;
-            } else if (hit.collider.gameObject.name == "LowerSpine")
+            }
+            else if (hit.collider.gameObject.name == "LowerSpine")
             {
                 Debug.Log("LowerTorso Shot");
                 hit.collider.gameObject.transform.root.GetComponentInChildren<PlayerController>()?.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).lowerTorso, PV.Owner, ((GunInfo)itemInfo).weaponIcon, false);
                 break;
-            } else if (hit.collider.gameObject.name == "UpperSpine")
+            }
+            else if (hit.collider.gameObject.name == "UpperSpine")
             {
                 Debug.Log("UpperTorso Shot");
                 hit.collider.gameObject.transform.root.GetComponentInChildren<PlayerController>()?.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).upperTorso, PV.Owner, ((GunInfo)itemInfo).weaponIcon, false);
                 break;
-            } else if (hit.collider.gameObject.name == "RightArm" || hit.collider.gameObject.name == "RightForeArm" || hit.collider.gameObject.name == "RightHand" || hit.collider.gameObject.name == "LeftArm" || hit.collider.gameObject.name == "LeftForeArm" || hit.collider.gameObject.name == "LeftHand" || hit.collider.gameObject.name == "RightUpperLeg" || hit.collider.gameObject.name == "RightLowerLeg" || hit.collider.gameObject.name == "RightFoot" || hit.collider.gameObject.name == "LeftUpperLeg" || hit.collider.gameObject.name == "LeftLowerLeg" || hit.collider.gameObject.name == "LeftFoot")
+            }
+            else if (hit.collider.gameObject.name == "RightArm" || hit.collider.gameObject.name == "RightForeArm" || hit.collider.gameObject.name == "RightHand" || hit.collider.gameObject.name == "LeftArm" || hit.collider.gameObject.name == "LeftForeArm" || hit.collider.gameObject.name == "LeftHand" || hit.collider.gameObject.name == "RightUpperLeg" || hit.collider.gameObject.name == "RightLowerLeg" || hit.collider.gameObject.name == "RightFoot" || hit.collider.gameObject.name == "LeftUpperLeg" || hit.collider.gameObject.name == "LeftLowerLeg" || hit.collider.gameObject.name == "LeftFoot")
             {
                 Debug.Log("Limb Shot");
                 hit.collider.gameObject.transform.root.GetComponentInChildren<PlayerController>()?.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).limb, PV.Owner, ((GunInfo)itemInfo).weaponIcon, false);
@@ -154,11 +157,11 @@ public class SingleshotGun : Gun
             }
             else
             {
-                bullet.time = ((GunInfo) itemInfo).bulletLife;
+                bullet.time = ((GunInfo)itemInfo).bulletLife;
             }
         }
     }
-    
+
     void Shoot()
     {
         if (CanShoot && IsShooting && currentMagAmount > 0 && !IsReloading)
@@ -167,7 +170,7 @@ public class SingleshotGun : Gun
 
             currentMagAmount--;
             _updateAmmoDisplay.magSize.text = currentMagAmount.ToString();
-            
+
             Debug.Log("Shot");
             weaponAnimation.SetTrigger("Shot");
 
@@ -175,15 +178,13 @@ public class SingleshotGun : Gun
             {
                 particle.Emit(1);
             }
-        
+
             ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
             ray.origin = raycastOrigin.position;
 
-            Vector3 velocity = (ray.direction).normalized * ((GunInfo) itemInfo).bulletSpeed;
+            Vector3 velocity = (ray.direction).normalized * ((GunInfo)itemInfo).bulletSpeed;
             var bullet = CreateBullet(raycastOrigin.position, velocity);
             bullets.Add(bullet);
-
-            IsShooting = false;
 
             Invoke(nameof(ResetShoot), ((GunInfo)itemInfo).fireRate);
         }
@@ -211,7 +212,8 @@ public class SingleshotGun : Gun
         if (currentPocketAmount == 0)
         {
             Debug.Log("No Ammo");
-        } else if (currentPocketAmount < magSize)
+        }
+        else if (currentPocketAmount < magSize)
         {
             currentMagAmount = currentPocketAmount;
             currentPocketAmount = 0;

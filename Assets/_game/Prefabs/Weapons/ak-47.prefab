@@ -10137,14 +10137,15 @@ GameObject:
   m_Component:
   - component: {fileID: 1569349561125751660}
   - component: {fileID: 7683381792366316592}
-  - component: {fileID: 4419229727013277092}
+  - component: {fileID: 5108229117866253007}
+  - component: {fileID: 5742168915881436654}
   m_Layer: 0
   m_Name: ak-47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1569349561125751660
 Transform:
   m_ObjectHideFlags: 0
@@ -10177,7 +10178,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4419229727013277092
+--- !u!95 &5108229117866253007
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060967850278055692}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: de005f04557952b4287db53d7922f9df, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5742168915881436654
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10186,7 +10206,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7060967850278055692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d38a967c5c089514e9a68afb61a4c126, type: 3}
+  m_Script: {fileID: 11500000, guid: c0523cf36d5f5c546a8c4be17b976284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: 937270ed2c1852642bbfe1b172bc9162, type: 2}
@@ -10195,6 +10215,7 @@ MonoBehaviour:
   muzzleFlash:
   - {fileID: 6064677122065192383}
   - {fileID: 6064957141818856729}
+  dropMag: {fileID: 865092442860670354, guid: b0ee2379f5453524faa62e5bddde2836, type: 3}
   ref_right_hand_grip: {fileID: 1014283904758351712}
   ref_left_hand_grip: {fileID: 5195460924091583947}
   rightWeight: 1

@@ -50,7 +50,8 @@ public class InputManager : MonoBehaviour
             _controls.Player.Secondary.performed += _ => _playerController.EquipItem(1);
             
             // WeaponShoot
-            _controls.Player.Shoot.performed += _ => Shoot();
+            _controls.Player.Shoot.started += _ => Shoot(true);
+            _controls.Player.Shoot.canceled += _ => Shoot(false);
 
             // Reload
             _controls.Player.Reload.performed += _ => Reload();
@@ -98,9 +99,9 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    void Shoot()
+    void Shoot(bool isShooting)
     {
-        _playerController.items[_playerController.itemIndex].Use();
+        _playerController.items[_playerController.itemIndex].Use(isShooting);
     }
 
     void Reload()

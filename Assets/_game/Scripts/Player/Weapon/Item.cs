@@ -7,6 +7,6 @@ public abstract class Item : MonoBehaviour
     public GameObject itemGameObject;
     public PhotonView PV;
 
-    public abstract void Use();
+    public abstract void Use(bool isShooting);
     public abstract void UpdateWeapon();
 }
