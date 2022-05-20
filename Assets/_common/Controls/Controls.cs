@@ -457,6 +457,34 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Showcase"",
+            ""id"": ""804943cd-1e66-4f32-b2a9-06a5b6799b9f"",
+            ""actions"": [
+                {
+                    ""name"": ""Screenshot"",
+                    ""type"": ""Button"",
+                    ""id"": ""d9315183-6a3e-4f10-95d9-c0e0bd773cdf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""1b7ad313-8ef1-40a2-8123-a2b98628876d"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Screenshot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -503,6 +531,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Scoreboard = m_Player.FindAction("Scoreboard", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+        // Showcase
+        m_Showcase = asset.FindActionMap("Showcase", throwIfNotFound: true);
+        m_Showcase_Screenshot = m_Showcase.FindAction("Screenshot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -679,6 +710,39 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Showcase
+    private readonly InputActionMap m_Showcase;
+    private IShowcaseActions m_ShowcaseActionsCallbackInterface;
+    private readonly InputAction m_Showcase_Screenshot;
+    public struct ShowcaseActions
+    {
+        private @Controls m_Wrapper;
+        public ShowcaseActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Screenshot => m_Wrapper.m_Showcase_Screenshot;
+        public InputActionMap Get() { return m_Wrapper.m_Showcase; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ShowcaseActions set) { return set.Get(); }
+        public void SetCallbacks(IShowcaseActions instance)
+        {
+            if (m_Wrapper.m_ShowcaseActionsCallbackInterface != null)
+            {
+                @Screenshot.started -= m_Wrapper.m_ShowcaseActionsCallbackInterface.OnScreenshot;
+                @Screenshot.performed -= m_Wrapper.m_ShowcaseActionsCallbackInterface.OnScreenshot;
+                @Screenshot.canceled -= m_Wrapper.m_ShowcaseActionsCallbackInterface.OnScreenshot;
+            }
+            m_Wrapper.m_ShowcaseActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Screenshot.started += instance.OnScreenshot;
+                @Screenshot.performed += instance.OnScreenshot;
+                @Screenshot.canceled += instance.OnScreenshot;
+            }
+        }
+    }
+    public ShowcaseActions @Showcase => new ShowcaseActions(this);
     private int m_KBMSchemeIndex = -1;
     public InputControlScheme KBMScheme
     {
@@ -711,5 +775,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnScoreboard(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+    }
+    public interface IShowcaseActions
+    {
+        void OnScreenshot(InputAction.CallbackContext context);
     }
 }
